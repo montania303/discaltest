@@ -20,10 +20,11 @@ Pasos para recrear la DB.
 3. Realizar la restauración de la base con el archivo backup que encontraras en la carpeta DB.
 
 Pasos para levantar el proyecto.
-1. activar la máquina vitual ENV. => cd env/scripts darle click a enter
-2. escribir la palabra activate y se activará la maquina virtual.
-3. escribir el comando cd ..\.. para volver al principio.
-4. seguidamente escribir el comando python manage.py runserver y se levantará el proyecto.
+1. Abrir el terminal integrado de vscode y dirigirse a la carpeta ENV
+2. activar la máquina vitual ENV. => cd env/scripts darle click a enter
+3. escribir la palabra activate y se activará la maquina virtual.
+4. escribir el comando cd ..\.. para volver al principio.
+5. seguidamente escribir el comando python manage.py runserver y se levantará el proyecto.
 
 
 
