@@ -1,8 +1,10 @@
+from discaltest_api.paginator import PaginacionEjercitarios
 from rest_framework.views import APIView
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
+from .paginator import *
 
 '''******************************Vista UserProfile******************************************************'''
 '''****************************Métodos sin Parámetros***************************************************'''
@@ -438,9 +440,11 @@ class QuestionDetalles(APIView):
 '''************************************Vista Ejercitario***********************************************'''
 '''*******************************Métodos sin Parámetros***********************************************'''
 class EjercitarioList(APIView):
-    def get(self, resquest):
+    def get(self, request):
         try:
             Lista_Ejercitario = Ejercitario.objects.all()
+            paginator = PaginacionEjercitarios()
+            result_page = paginator.paginate_queryset(Lista_Ejercitario, request)
             serializer = EjercitarioSerializer(Lista_Ejercitario, many=True)
             return Response(serializer.data)
         except Exception:

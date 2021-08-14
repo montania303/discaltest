@@ -122,7 +122,6 @@ class ProfesorQuestion(models.Model):
 class Ejercitario(models.Model):
     """Modelo para Entidad Ejercitario"""
     id = models.AutoField (primary_key = True, unique=True) 
-    descripcion = models.CharField(max_length=120, null=False)
     area = models.CharField(max_length=50, null=False)
 
     def __Str__(self):
