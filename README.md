@@ -7,7 +7,9 @@ Software necesarios para levantar la API-REST
   pip install django
   pip install djangorestframework
 3. Instalar el paquete de conexión de postgresql con django
-  pip install sycopg2
+  pip install psycopg2
+4. Installar el entorno django-environ
+  pip install django-environ  
   
 Pasos para clonar el repositorio.
 1. Darle click al F1 en vscode y selecionar el comando de clonar repositorio 
