@@ -1,21 +1,49 @@
-from discaltest_api.paginator import PaginacionEjercitarios
+from rest_framework import status 
+from rest_framework import response
 from rest_framework.views import APIView
-from .serializers import *
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
+
+from .serializers import *
+from .pagination import *
+
 from django.http import JsonResponse
-from .paginator import *
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import check_password
+
+@api_view(['POST'])
+def login(request):
+    
+    loggin = request.POST.get('loggin')
+    password = request.POST.get('password')
+
+    try:
+      user = UserProfile.objects.get(loggin = loggin)
+    except UserProfile.DoesNotExist:
+        return Response("Usuario invalido")
+
+    pwd_valid = check_password(password, user.password)
+    if not pwd_valid:
+        return response("Contraseña no válida")
+
+    token, _ = Token.objects.get_or_create(user=user) 
+    print(token.key)
+    return token.key
+
 
 '''******************************Vista UserProfile******************************************************'''
 '''****************************Métodos sin Parámetros***************************************************'''
 class UserProfileList(APIView):
     '''Métodos que no necesitan de Parámetros'''
-    def get(self, resquest):
+    def get(self, request):
         '''Busca todos los registros'''
         try:
             Lista_UserProfile = UserProfile.object.all()
-            serializer = UserProfileSerializer(Lista_UserProfile, many=True)
-            return Response(serializer.data)
+            pagination = PaginacionUserProfile()
+            result_page = pagination.paginate_queryset(Lista_UserProfile, request)
+            serializer = UserProfileSerializer(result_page, many=True)
+            return pagination.get_paginated_response(serializer.data)
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
@@ -97,11 +125,13 @@ class UserProfileDetalles(APIView):
 '''************************************Vista Entidad***************************************************'''
 '''*******************************Métodos sin Parámetros***********************************************'''
 class EntidadList(APIView):
-    def get(self, resquest):
+    def get(self, request):
         try:
             Lista_Entidad = Entidad.objects.all()
-            serializer = EntidadSerializer(Lista_Entidad, many=True)
-            return Response(serializer.data)
+            pagination = PaginacionEntidades()
+            result_page = pagination.paginate_queryset(Lista_Entidad, request)
+            serializer = EntidadSerializer(result_page, many=True)
+            return pagination.get_paginated_response(serializer.data)
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
@@ -183,11 +213,13 @@ class EntidadDetalles(APIView):
 '''************************************Vista Profesor**************************************************'''
 '''*******************************Métodos sin Parámetros***********************************************'''
 class ProfesorList(APIView):
-    def get(self, resquest):
+    def get(self, request):
         try:
             Lista_Profesor = Profesor.objects.all()
-            serializer = ProfesorSerializer(Lista_Profesor, many=True)
-            return Response(serializer.data)
+            pagination = PaginacionProfesores()
+            result_page = pagination.paginate_queryset(Lista_Profesor, request)
+            serializer = ProfesorSerializer(result_page, many=True)
+            return pagination.get_paginated_response(serializer.data)
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
@@ -269,11 +301,13 @@ class ProfesorDetalles(APIView):
 '''************************************Vista Alumnos**************************************************'''
 '''*******************************Métodos sin Parámetros***********************************************'''
 class AlumnosList(APIView):
-    def get(self, resquest):
+    def get(self, request):
         try:
             Lista_ALumnos = Alumnos.objects.all()
-            serializer = AlumnosSerializer(Lista_ALumnos, many=True)
-            return Response(serializer.data)
+            pagination = PaginacionAlumnos()
+            result_page = pagination.paginate_queryset(Lista_ALumnos, request)
+            serializer = AlumnosSerializer(result_page, many=True)
+            return pagination.get_paginated_response(serializer.data)
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
@@ -354,11 +388,13 @@ class AlumnosDetalles(APIView):
 '''************************************Vista Question**************************************************'''
 '''*******************************Métodos sin Parámetros***********************************************'''
 class QuestionList(APIView):
-    def get(self, resquest):
+    def get(self, request):
         try:
             Lista_Question = Question.objects.all()
-            serializer = QuestionSerializer(Lista_Question, many=True)
-            return Response(serializer.data)
+            pagination = PaginacionQuestion()
+            result_page = pagination.paginate_queryset(Lista_Question, request)
+            serializer = QuestionSerializer(result_page, many=True)
+            return pagination.get_paginated_response(serializer.data)
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
@@ -443,10 +479,10 @@ class EjercitarioList(APIView):
     def get(self, request):
         try:
             Lista_Ejercitario = Ejercitario.objects.all()
-            paginator = PaginacionEjercitarios()
-            result_page = paginator.paginate_queryset(Lista_Ejercitario, request)
-            serializer = EjercitarioSerializer(Lista_Ejercitario, many=True)
-            return Response(serializer.data)
+            paginacion = PaginacionEjercitarios()
+            result_page = paginacion.paginate_queryset(Lista_Ejercitario, request)
+            serializer = EjercitarioSerializer(result_page, many=True)
+            return paginacion.get_paginated_response(serializer.data)
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},

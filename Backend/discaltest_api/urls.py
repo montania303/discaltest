@@ -15,4 +15,5 @@ urlpatterns = [
     path('Question/<pk>', QuestionDetalles.as_view()),
     path('Ejercitario/', EjercitarioList.as_view()),
     path('Ejercitario/<pk>', EjercitarioDetalles.as_view()),
+    path('loggin/', views.login),
 ]
