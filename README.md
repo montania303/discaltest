@@ -12,9 +12,9 @@ Software necesarios para levantar la API-REST
   pip install django-environ  
   
 Pasos para clonar el repositorio.
-1. Darle click al F1 en vscode y selecionar el comando de clonar repositorio 
-2. Seguidamente copiar el siguiente link https://github.com/montania303/discaltest.git
-3. Seguidamente direccionar a la carpeta deseada donde será clonado el proyecto.
+1. Crear una carpeta y/o directorio donde se clonará las fuentes de la API
+2. Dirigirse a la carpeta deseada con cd documentos/API por ejemplo 
+3. Seguidamente copiar el siguiente link https://github.com/montania303/discaltest.git
 
 Pasos para recrear la DB.
 1. Instalar postgresql v. 12
