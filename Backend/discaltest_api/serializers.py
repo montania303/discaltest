@@ -1,10 +1,23 @@
-from rest_framework import fields, serializers
+from rest_framework import serializers
 from .models import *
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ["id", "loggin", "is_active", "password"]
+    
+    def create(self, validated_data):
+        userProfile =  UserProfile(**validated_data)
+        userProfile.set_password(validated_data['password'])
+        userProfile.save()
+        return userProfile
+
+    def update(self, instance, validated_data):
+        updated_userProfile =  super().update(instance, validated_data)
+        updated_userProfile.set_password(validated_data['password'])
+        updated_userProfile.save()
+        return updated_userProfile
+
 
 class EntidadSerializer(serializers.ModelSerializer):
     class Meta:

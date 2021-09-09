@@ -43,12 +43,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'discaltest.urls'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES':[
+   'DEFAULT_PERMISSION_CLASSES':[
         'rest_framework.permissions.IsAuthenticated'
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES':[
+
+   'DEFAULT_AUTHENTICATION_CLASSES':[
         'rest_framework.authentication.TokenAuthentication'
-    ]
+    ],
 }
 
 

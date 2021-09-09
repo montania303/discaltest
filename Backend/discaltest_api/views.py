@@ -12,6 +12,8 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 
+from .models import *
+
 @api_view(['POST'])
 def login(request):
     
@@ -19,7 +21,7 @@ def login(request):
     password = request.POST.get('password')
 
     try:
-      user = UserProfile.objects.get(loggin = loggin)
+      user = UserProfile.object.get(loggin = loggin)
     except UserProfile.DoesNotExist:
         return Response("Usuario invalido")
 
@@ -27,9 +29,8 @@ def login(request):
     if not pwd_valid:
         return response("Contraseña no válida")
 
-    token, _ = Token.objects.get_or_create(user=user) 
-    print(token.key)
-    return token.key
+    token, _ = Token.objects.get_or_create(user) 
+    return Response(token.key)
 
 
 '''******************************Vista UserProfile******************************************************'''

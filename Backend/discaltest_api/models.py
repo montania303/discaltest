@@ -4,7 +4,6 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.db.models.fields import CharField
 
-
 tipo_entidad_choices = [
     ('Ad', 'Administrador'),
     ('Al', 'Alumno'),
@@ -21,6 +20,7 @@ class UserProfileManager(BaseUserManager):
             raise ValueError('Es necesario que el usuario tenga un nombre de usuario')
 
         user = self.model(loggin=loggin)
+        
         user.set_password(password)
         user.save(using=self._db)
         return user
