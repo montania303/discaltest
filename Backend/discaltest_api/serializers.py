@@ -1,3 +1,4 @@
+#from django.contrib.auth.models import PermissionsMixin
 from rest_framework import serializers
 from .models import *
 
@@ -22,8 +23,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class EntidadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Entidad
-        fields = ["id", "id_usuario", 
-                  "tipo_entidad", "nro_documento", "nombre", "apellido", "telefono", "direccion"]
+        fields = ["id", "tipo_entidad", "nombre", "apellido", "telefono", "direccion", "id_usuario", "nro_documento"]
 
 class ProfesorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,27 +40,51 @@ class AluProfeSerializer(serializers.ModelSerializer):
         model = Alumnos
         fields = ["id", "id_alumno", "id_profesor"]
 
-class QuestionSerializer(serializers.ModelSerializer):
+class ResultadoTestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Question
-        fields = ["id", "descripcion"]        
+        model = ResultadoTest
+        fields = ["id", "id_alumno", "id_profesor", "indicador", "observacion"]      
 
-class AluQuestionSerializer(serializers.ModelSerializer):
+class AreaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AluQuestion
-        fields = ["id", "id_alumno", "id_question"]        
+        model = Area
+        fields = ["id", "descripcion", "pEsperado"]   
 
-class ProfeQuestionSerializer(serializers.ModelSerializer):
+class ResultadoItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProfesorQuestion
-        fields = ["id", "id_profesor", "id_question"]       
+        model = ResultadoItem
+        fields = ["id_resultadoTest","id", "id_area", "pObtenido", "indicador", "observacion"]      
 
-class EjercitarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Ejercitario
-        fields = ["id", "descripcion", "area"] 
 
-class ItemQuestionSerializer(serializers.ModelSerializer):
+class RItemListSerializer(serializers.ListSerializer):
+    def update(self, instance, validated_data):
+        # Maps for id->instance and id->data item.
+        rItem_mapping = {ResultadoItem.id: ResultadoItem for ResultadoItem in instance}
+        area_mapping = {Area['id']: Area for Area in validated_data}
+
+        # Perform creations and updates.
+        ret = []
+        for ResultadoItem_id, data in area_mapping.items():
+            resultadoItem = rItem_mapping.get(ResultadoItem_id, None)
+            if resultadoItem is None:
+                ret.append(self.child.create(data))
+            else:
+                ret.append(self.child.update(resultadoItem, data))
+
+        # Perform deletions.
+        for ResultadoItem_id, ResultadoItem in rItem_mapping.items():
+            if ResultadoItem_id not in area_mapping:
+                ResultadoItem.delete()
+
+        return ret
+
+class rITemSerializer(serializers.Serializer):
+    # We need to identify elements in the list using their primary key,
+    # so use a writable field here, rather than the default which would be read-only.
+    #id = serializers.IntegerField()
+
     class Meta:
-        model = ItemQuestion
-        fields = ["id", "id_question", "id_ejercitario", "puntuacion"]                   
+        list_serializer_class = RItemListSerializer         
+
+
+        

@@ -13,12 +13,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'discaltest_api',
     'rest_framework',
     'rest_framework.authtoken',
@@ -28,12 +29,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
+    
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -42,15 +46,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'discaltest.urls'
 
-REST_FRAMEWORK = {
-   'DEFAULT_PERMISSION_CLASSES':[
-        'rest_framework.permissions.IsAuthenticated'
-    ],
 
-   'DEFAULT_AUTHENTICATION_CLASSES':[
-        'rest_framework.authentication.TokenAuthentication'
-    ],
-}
+# REST_FRAMEWORK = {
+#    'DEFAULT_PERMISSION_CLASSES':[
+#         'rest_framework.permissions.IsAuthenticated'
+#     ],
+
+#    'DEFAULT_AUTHENTICATION_CLASSES':[
+#         'rest_framework.authentication.TokenAuthentication'
+#     ],
+# }
 
 
 TEMPLATES = [
@@ -126,8 +131,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'discaltest_api.UserProfile'
 ALUMNOS_MODEL = 'discaltest_api.Alumnos'
 PROFESOR_MODEL = 'discaltest_api.Profesor'
-QUESTION_MODEL = 'discaltest_api.Profesor'
 ALUPROFE_MODEL = 'discaltest_api.AluProfe'
 ENTIDAD_MODEL = 'discaltest_api.Entidad'
-ALUQUESTION_MODEL = 'discaltest_api.AluQuestion'
-PROFESORQUESTION_MODEL = 'discaltest_api.ProfesorQuestion'
+AREA_MODEL = 'discaltest_api.Area'
+RESULTADOTEST_MODEL = 'discaltest_api.ResultadoTest'
+RESULTADOITEM_MODEL = 'discaltest_api.ResultadoItem'
