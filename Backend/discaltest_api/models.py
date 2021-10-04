@@ -114,6 +114,10 @@ class ResultadoItem(models.Model):
     indicador        = models.CharField(null=True, max_length=1)
     observacion      = models.CharField(null=True, max_length=250)
 
+    class Meta:
+        managed = True
+        db_table = 'resultadoitem' 
+    
     def __Str__(self):
        return self.observacion       
 

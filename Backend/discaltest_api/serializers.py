@@ -53,38 +53,111 @@ class AreaSerializer(serializers.ModelSerializer):
 class ResultadoItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResultadoItem
-        fields = ["id_resultadoTest","id", "id_area", "pObtenido", "indicador", "observacion"]      
+        fields = ["id_resultadoTest", "id", "id_area", "pObtenido", "indicador", "observacion"]      
+
+class RItemSerializer(serializers.ListSerializer):
+    id_area = AreaSerializer()
+
+    class Meta:
+        model = ResultadoItem
+        fields = '__all__'
 
 
-class RItemListSerializer(serializers.ListSerializer):
-    def update(self, instance, validated_data):
-        # Maps for id->instance and id->data item.
-        rItem_mapping = {ResultadoItem.id: ResultadoItem for ResultadoItem in instance}
-        area_mapping = {Area['id']: Area for Area in validated_data}
+class RItemUpdateListSerializer(serializers.ListSerializer):
+    """ Recibe dos listas para comparar los datos """
+    class Meta:
+        model = ResultadoItem
+        fields = '__all__'
 
-        # Perform creations and updates.
+
+    def update(self, instance, validated_data):      
+        mapping = {ritem.id_area: ritem for ritem in instance}
+        #resultadoTest_mapping = {item['id_resultadoTest']: item for item in validated_data}
+        area_mapping = {item['id_area']: item for item in validated_data}
+
         ret = []
-        for ResultadoItem_id, data in area_mapping.items():
-            resultadoItem = rItem_mapping.get(ResultadoItem_id, None)
-            if resultadoItem is None:
-                ret.append(self.child.create(data))
-            else:
-                ret.append(self.child.update(resultadoItem, data))
-
-        # Perform deletions.
-        for ResultadoItem_id, ResultadoItem in rItem_mapping.items():
-            if ResultadoItem_id not in area_mapping:
-                ResultadoItem.delete()
+        #for _id, data in resultadoTest_mapping.items():
+        for _id, data in area_mapping.items():
+           ritem = mapping.get(_id, None)    
+           if not ritem is None:                
+              ret.append(self.child.update(ritem, data)) 
 
         return ret
 
-class rITemSerializer(serializers.Serializer):
-    # We need to identify elements in the list using their primary key,
-    # so use a writable field here, rather than the default which would be read-only.
-    #id = serializers.IntegerField()
+class RItemCreateListSerializer(serializers.ListSerializer):
+    """ Recibe dos listas para comparar los datos """
 
     class Meta:
-        list_serializer_class = RItemListSerializer         
+        model = ResultadoItem
+        fields = '__all__'
 
+    def update(self, instance, validated_data):        
 
+        mapping = {ritem.id_area: ritem for ritem in instance}
+        resultadoTest_mapping = {item['id_resultadoTest']: item for item in validated_data}
+        #area_mapping = {item['id_area']: item for item in validated_data}
         
+        ret = []
+        for _id, data in resultadoTest_mapping.items():
+            #for _id, data in area_mapping.items():
+            ritem = mapping.get(_id, None)    
+            if ritem is None:                 
+               ret.append(self.child.create(data))
+            else:
+               print('El registro ya existe en la base de datos')     
+
+        return ret        
+
+class RItemDeleteListSerializer(serializers.ListSerializer):
+    """ Recibe dos listas para comparar los datos """
+
+    class Meta:
+        model = ResultadoItem
+        fields = '__all__'        
+
+    def update(self, instance, validated_data):        
+
+        mapping = {ritem.id_area: ritem for ritem in instance}
+        data_mapping = {item['id_area']: item for item in validated_data}
+        
+        # Realizamos las creaciones si no se encuentran en data_mapping,
+        # y las actualizaciones si se encuentran keys en data_mapping
+        ret = []
+        # Realizamos las eliminaciones, si no se encuentra en data_mapping
+        for _id, data in mapping.items():
+            if _id in data_mapping:
+                data.delete()
+
+        return ret              
+
+
+class AddRItemListSerializer(serializers.ModelSerializer):
+    # id_area = serializers.IntegerField()
+    # id_resultadoTest = serializers.IntegerField()
+
+    class Meta:
+        #list_serializer_class , nos sirve para trabajar con varios objetos
+        #en forma de listas, util para Insert, Update, Delete
+        list_serializer_class = RItemCreateListSerializer  
+        model = ResultadoItem
+        fields = '__all__'  
+
+
+class UpdateRItemListSerializer(serializers.ModelSerializer):
+    # id_area = serializers.IntegerField()
+    # id_resultadoTest = serializers.IntegerField()
+
+    class Meta:
+        #list_serializer_class , nos sirve para trabajar con varios objetos
+        #en forma de listas, util para Insert, Update, Delete
+        list_serializer_class = RItemUpdateListSerializer  
+        model = ResultadoItem
+        fields = '__all__'         
+
+
+class DeleteRItemListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        list_serializer_class = RItemDeleteListSerializer  
+        model = ResultadoItem
+        fields = '__all__'               
