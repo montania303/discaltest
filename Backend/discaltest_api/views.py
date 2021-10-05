@@ -1,45 +1,30 @@
-
 from rest_framework import status
-#from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
-# from django.db.models.fields import mixins
-# from django_filters.rest_framework import DjangoFilterBackend, filterset
-# from rest_framework import filters 
-
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
 
 from .serializers import *
 from .models import *
 #from .pagination import *
 
 from django.http import JsonResponse
-#from django.contrib.auth.models import User
-from django.contrib.auth.hashers import check_password
-#from django.shortcuts import redirect
-
 
 @api_view(['POST'])
 def login(request):
-        
-    loggin = request.POST.get('loggin')
-    password = request.POST.get('password')
+    """User Profile Log."""
 
-    try:
-      user = UserProfile.object.get(loggin=loggin)
-    except UserProfile.DoesNotExist:
-        return Response("Usuario inválido")
-
-    pwd_valid = check_password(password, user.password)
-    if not pwd_valid:
-        return Response("Contraseña no válida")
-
-    token, _ = Token.objects.get_or_create(user=user) 
-    return Response(token.key)
-
-
+    serializer = UserLoginSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    user, token = serializer.save()
+    data = {
+        'user': UserProfileSerializer(user).data,
+        'access_token': token
+    }
+    return Response(data, status=status.HTTP_201_CREATED)
 
 '''*********************************Clase Sis. Experto************************************************'''
 class SisExperto(APIView):

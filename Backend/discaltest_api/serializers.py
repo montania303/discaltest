@@ -1,6 +1,34 @@
 #from django.contrib.auth.models import PermissionsMixin
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+
 from .models import *
+
+from django.contrib.auth import password_validation, authenticate
+from django.contrib.auth.hashers import check_password
+
+class UserLoginSerializer(serializers.Serializer):
+
+    loggin = serializers.CharField()
+    password = serializers.CharField(min_length=6, max_length=64)
+
+    def validate(self, data):
+        try:
+          user = UserProfile.object.get(loggin=data['loggin'])
+        except UserProfile.DoesNotExist:
+          raise serializers.ValidationError('Usuario inválido')
+
+        pwd_valid = check_password(data['password'], user.password)
+        if not pwd_valid:
+            raise serializers.ValidationError("Contraseña no válida")
+
+        self.context['user'] = user
+        return data
+
+    def create(self, data):
+        """Generar o recuperar token."""
+        token, created = Token.objects.get_or_create(user=self.context['user'])
+        return self.context['user'], token.key
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,7 +46,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         updated_userProfile.set_password(validated_data['password'])
         updated_userProfile.save()
         return updated_userProfile
-
 
 class EntidadSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,7 +88,6 @@ class RItemSerializer(serializers.ListSerializer):
     class Meta:
         model = ResultadoItem
         fields = '__all__'
-
 
 class RItemUpdateListSerializer(serializers.ListSerializer):
     """ Recibe dos listas para comparar los datos """
@@ -130,7 +156,6 @@ class RItemDeleteListSerializer(serializers.ListSerializer):
 
         return ret              
 
-
 class AddRItemListSerializer(serializers.ModelSerializer):
     # id_area = serializers.IntegerField()
     # id_resultadoTest = serializers.IntegerField()
@@ -142,7 +167,6 @@ class AddRItemListSerializer(serializers.ModelSerializer):
         model = ResultadoItem
         fields = '__all__'  
 
-
 class UpdateRItemListSerializer(serializers.ModelSerializer):
     # id_area = serializers.IntegerField()
     # id_resultadoTest = serializers.IntegerField()
@@ -153,7 +177,6 @@ class UpdateRItemListSerializer(serializers.ModelSerializer):
         list_serializer_class = RItemUpdateListSerializer  
         model = ResultadoItem
         fields = '__all__'         
-
 
 class DeleteRItemListSerializer(serializers.ModelSerializer):
 
