@@ -1,11 +1,9 @@
-#from django.contrib.auth.models import PermissionsMixin
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import *
-
-from django.contrib.auth import password_validation, authenticate
 from django.contrib.auth.hashers import check_password
+
+from .models import *
 
 class UserLoginSerializer(serializers.Serializer):
 
@@ -17,7 +15,6 @@ class UserLoginSerializer(serializers.Serializer):
           user = UserProfile.object.get(loggin=data['loggin'])
         except UserProfile.DoesNotExist:
           raise serializers.ValidationError('Usuario inválido')
-
         pwd_valid = check_password(data['password'], user.password)
         if not pwd_valid:
             raise serializers.ValidationError("Contraseña no válida")
@@ -89,6 +86,7 @@ class RItemSerializer(serializers.ListSerializer):
         model = ResultadoItem
         fields = '__all__'
 
+#Abm Métodos Serializer
 class RItemUpdateListSerializer(serializers.ListSerializer):
     """ Recibe dos listas para comparar los datos """
     class Meta:
@@ -99,13 +97,17 @@ class RItemUpdateListSerializer(serializers.ListSerializer):
     def update(self, instance, validated_data):      
         mapping = {ritem.id_area: ritem for ritem in instance}
         #resultadoTest_mapping = {item['id_resultadoTest']: item for item in validated_data}
-        area_mapping = {item['id_area']: item for item in validated_data}
+        ritemArea_mapping = {item['id_area']: item for item in validated_data}
+
+        #area_mapping = Area.objects.all().order_by("id")
+
 
         ret = []
         #for _id, data in resultadoTest_mapping.items():
-        for _id, data in area_mapping.items():
+        for _id, data in ritemArea_mapping.items():
            ritem = mapping.get(_id, None)    
            if not ritem is None:                
+
               ret.append(self.child.update(ritem, data)) 
 
         return ret
@@ -156,6 +158,8 @@ class RItemDeleteListSerializer(serializers.ListSerializer):
 
         return ret              
 
+
+#ABM Class Serialializer
 class AddRItemListSerializer(serializers.ModelSerializer):
     # id_area = serializers.IntegerField()
     # id_resultadoTest = serializers.IntegerField()

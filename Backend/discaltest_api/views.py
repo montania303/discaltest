@@ -2,21 +2,18 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework.authtoken.models import Token
 from rest_framework import generics
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
+from rest_framework import status
+
+from django.http import JsonResponse
 
 from .serializers import *
 from .models import *
-#from .pagination import *
-
-from django.http import JsonResponse
 
 @api_view(['POST'])
 def login(request):
     """User Profile Log."""
-
+    
     serializer = UserLoginSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user, token = serializer.save()
@@ -614,6 +611,17 @@ class ResultadoItemListView(APIView):
         data = request.data # Obtener el  JSON.
         ritem =  ResultadoItem.objects.all() # Obtener los datos de la base de datos        
         _arr_ritem = [entry for entry in ritem] #Es necesario pasarlo a listas
+        area =  Area.objects.all().order_by('id') # Obtener los datos de la base de datos        
+
+        # for area in area.items():
+        #   if data['id_area'] == area['id']:
+        #       res =  ((data['pObtenido'] * 100) / area['pEsperado'])
+
+        #       if :
+              
+
+          
+
         se = AddRItemListSerializer(instance=_arr_ritem, data = data, many = True)         # Serializar los datos
 
         #validar y guardar
