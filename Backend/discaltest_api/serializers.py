@@ -93,24 +93,19 @@ class RItemUpdateListSerializer(serializers.ListSerializer):
         model = ResultadoItem
         fields = '__all__'
 
-
     def update(self, instance, validated_data):      
         mapping = {ritem.id_area: ritem for ritem in instance}
-        #resultadoTest_mapping = {item['id_resultadoTest']: item for item in validated_data}
-        ritemArea_mapping = {item['id_area']: item for item in validated_data}
-
-        #area_mapping = Area.objects.all().order_by("id")
-
-
+        area_mapping = {item['id_area']: item for item in validated_data}
+        
         ret = []
-        #for _id, data in resultadoTest_mapping.items():
-        for _id, data in ritemArea_mapping.items():
-           ritem = mapping.get(_id, None)    
-           if not ritem is None:                
+        for _id, data in area_mapping.items():
+            ritem = mapping.get(_id, None)    
+            if not ritem is None:                
+                ret.append(self.child.update(ritem, data))  #ret.append(self.child.   update(ritem, data)) 
 
-              ret.append(self.child.update(ritem, data)) 
+        return ret  
 
-        return ret
+
 
 class RItemCreateListSerializer(serializers.ListSerializer):
     """ Recibe dos listas para comparar los datos """
@@ -119,20 +114,18 @@ class RItemCreateListSerializer(serializers.ListSerializer):
         model = ResultadoItem
         fields = '__all__'
 
-    def update(self, instance, validated_data):        
+    def update(self, instance, validated_data):     
 
         mapping = {ritem.id_area: ritem for ritem in instance}
-        resultadoTest_mapping = {item['id_resultadoTest']: item for item in validated_data}
-        #area_mapping = {item['id_area']: item for item in validated_data}
-        
+        area_mapping = {item['id_area']: item for item in validated_data}
+
         ret = []
-        for _id, data in resultadoTest_mapping.items():
-            #for _id, data in area_mapping.items():
-            ritem = mapping.get(_id, None)    
-            if ritem is None:                 
-               ret.append(self.child.create(data))
-            else:
-               print('El registro ya existe en la base de datos')     
+        for _id, data in area_mapping.items():
+          ritem = mapping.get(_id, None)    
+          if ritem is None:                 
+            ret.append(self.child.create(data))
+          else:
+            print('El registro ya existe en la base de datos')     
 
         return ret        
 
@@ -174,7 +167,7 @@ class AddRItemListSerializer(serializers.ModelSerializer):
 class UpdateRItemListSerializer(serializers.ModelSerializer):
     # id_area = serializers.IntegerField()
     # id_resultadoTest = serializers.IntegerField()
-
+    # id = serializers.IntegerField()
     class Meta:
         #list_serializer_class , nos sirve para trabajar con varios objetos
         #en forma de listas, util para Insert, Update, Delete
