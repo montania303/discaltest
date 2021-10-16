@@ -50,21 +50,31 @@ class EntidadSerializer(serializers.ModelSerializer):
         fields = ["id", "tipo_entidad", "nombre", "apellido", "telefono", "direccion", "id_usuario", "nro_documento"]
 
 class ProfesorSerializer(serializers.ModelSerializer):
+    id_entidad = EntidadSerializer()
+
     class Meta:
         model = Profesor
         fields = ["id", "id_entidad", "curso"]
 
 class AlumnosSerializer(serializers.ModelSerializer):
+    id_entidad = EntidadSerializer()
+
     class Meta:
         model = Alumnos
         fields = ["id", "id_entidad"]
 
 class AluProfeSerializer(serializers.ModelSerializer):
+    id_alumno = AlumnosSerializer()
+    id_profesor = ProfesorSerializer()
+
     class Meta:
-        model = Alumnos
+        model = AluProfe
         fields = ["id", "id_alumno", "id_profesor"]
 
 class ResultadoTestSerializer(serializers.ModelSerializer):
+    id_alumno = AlumnosSerializer()
+    id_profesor = ProfesorSerializer()
+   
     class Meta:
         model = ResultadoTest
         fields = ["id", "id_alumno", "id_profesor", "indicador", "observacion"]      
@@ -75,16 +85,13 @@ class AreaSerializer(serializers.ModelSerializer):
         fields = ["id", "descripcion", "pEsperado"]   
 
 class ResultadoItemSerializer(serializers.ModelSerializer):
+    id_area = AreaSerializer()
+    id_resultadoTest = ProfesorSerializer()
+    
     class Meta:
         model = ResultadoItem
         fields = ["id_resultadoTest", "id", "id_area", "pObtenido", "indicador", "observacion"]      
 
-class RItemSerializer(serializers.ListSerializer):
-    id_area = AreaSerializer()
-
-    class Meta:
-        model = ResultadoItem
-        fields = '__all__'
 
 #Abm Métodos Serializer
 class RItemUpdateListSerializer(serializers.ListSerializer):
@@ -103,9 +110,9 @@ class RItemUpdateListSerializer(serializers.ListSerializer):
             if not ritem is None:                
                 ret.append(self.child.update(ritem, data))  #ret.append(self.child.   update(ritem, data)) 
 
+        
+        
         return ret  
-
-
 
 class RItemCreateListSerializer(serializers.ListSerializer):
     """ Recibe dos listas para comparar los datos """
@@ -165,7 +172,7 @@ class AddRItemListSerializer(serializers.ModelSerializer):
         fields = '__all__'  
 
 class UpdateRItemListSerializer(serializers.ModelSerializer):
-    # id_area = serializers.IntegerField()
+    #id_area = serializers.IntegerField()
     # id_resultadoTest = serializers.IntegerField()
     # id = serializers.IntegerField()
     class Meta:

@@ -47,7 +47,7 @@ class Entidad(models.Model):
     """Modelo Generico para Entidad """
     
     id = models.AutoField(primary_key=True, unique=True) 
-    id_usuario = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
     tipo_entidad = models.CharField(choices=tipo_entidad_choices, null=False, max_length=2)
     nro_documento = models.CharField(max_length=60, null=False, unique=True)
     nombre = models.CharField(max_length=60, null=False)
@@ -107,16 +107,12 @@ class ResultadoTest(models.Model):
     
 class ResultadoItem(models.Model):
     """"Modelo para Entidad ResultadoItems"""
-    id_resultadoTest = models.ForeignKey(ResultadoTest, on_delete=models.CASCADE, null=False, blank=False)
     id               = models.AutoField(primary_key=True, unique=True)
-    id_area          = models.ForeignKey(Area, on_delete=models.CASCADE, blank=False)
+    id_resultadoTest = models.ForeignKey(ResultadoTest, on_delete=models.CASCADE, null=False, blank=False)
+    id_area          = models.ForeignKey(Area, on_delete=models.CASCADE, null=False,  blank=False)
     pObtenido        = models.IntegerField(null=False)
     indicador        = models.CharField(null=True, max_length=1)
     observacion      = models.CharField(null=True, max_length=250)
-
-    class Meta:
-        managed = True
-        db_table = 'resultadoitem' 
     
     def __Str__(self):
        return self.observacion       

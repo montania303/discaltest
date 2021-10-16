@@ -11,6 +11,7 @@ from .serializers import *
 from .models import *
 import json
 
+'''*********************************Vista UserLoggin************************************************'''
 @api_view(['POST'])
 def login(request):
     """User Profile Log."""
@@ -23,33 +24,6 @@ def login(request):
         'access_token': token
     }
     return Response(data, status=status.HTTP_201_CREATED)
-
-'''*********************************Clase Sis. Experto************************************************'''
-class SisExperto(APIView):
-  '''Aqui debemos de aplicar el indicador y dar las observaciones'''
-  
-
-        # valida_reitem = ResultadoItem.objects.all()
-
-        # se = UpdateRItemListSerializer(ritem, valida_reitem, many=True) # Serializar los datos 
-        # #print('se  es: ', se.data)           
-        # if se.is_valid(): 
-        #     se.save()
-        #     payload = {
-        #         'codigo': status.HTTP_200_OK,
-        #         'mensaje': 'diagnostico aplicado con éxito',  
-        #         'data': se.data 
-        #     }
-        # else:
-        #     payload = {
-        #         'codigo': status.HTTP_400_BAD_REQUEST, 
-        #         'mensaje': 'diagnostico no puedo ser realizado',  
-        #         'data': se.errors
-        #     }   
-
-        # return Response(payload, status=status.HTTP_200_OK)         
-            
-
 
 '''*********************************Vista UserProfile************************************************'''
 class UserProfileListView(APIView):
@@ -143,7 +117,7 @@ class UserProfileDetallesView(APIView):
 class EntidadListView(APIView):
     def get(self, request):
         try:
-            Lista_Entidad = Entidad.objects.all().order_by('id')
+            Lista_Entidad = Entidad.objects.all().order_by('id') #.filter(tipo_entidad_choices='Al')
             serializer = EntidadSerializer(Lista_Entidad, many=True)
             return Response(serializer.data)
         except Exception:
@@ -222,7 +196,7 @@ class EntidadDetallesView(APIView):
             return JsonResponse(
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+   
 
 '''************************************Vista Profesor*************************************************'''
 class ProfesorListView(APIView):
@@ -392,6 +366,86 @@ class AlumnosDetallesView(APIView):
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+'''******************************Vista Alumnos de Profesores*******************************************'''
+class AluProfeListView(APIView):
+    def get(self, request):
+        try:
+            Lista_AluProfe = AluProfe.objects.all().order_by('id')
+            serializer = AluProfeSerializer(Lista_AluProfe, many=True)
+            return Response(serializer.data)
+        except Exception:
+            return JsonResponse(
+                {'mensaje': 'Ocurrio un error en la lectura del servidor'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def post(self, request):
+        try:
+            serializer = AluProfeSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data,
+                                status=status.HTTP_201_CREATED)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+        except Exception:
+            return JsonResponse(
+                {'mensaje': 'Ocurrio un error en la lectura del servidor'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class AluprofeDetallesView(APIView):
+    '''Métodos que sí necesitan de Parámetros'''
+    def get(self, request, nro_documento):
+        '''Busca registros por su Nro documento'''
+        try:
+            alumno = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
+            serializer = AluProfeSerializer(alumno)
+            return Response(serializer.data)
+        except AluProfe.DoesNotExist:
+            return JsonResponse(
+                    {'mensaje':'El alumno no esta registrado en la base de datos'},
+                     status=status.HTTP_404_NOT_FOUND)
+        except Exception:
+            return JsonResponse(
+                {'mensaje': 'Ocurrio en la lectura del servidor'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def put(self, request, pk):
+        '''Actualiza los datos de acuerdo a su Id'''
+        try:
+            if pk == '0':
+                return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+            aluprofe = AluProfe.objects.get(pk=pk)            
+            serializer = AluProfeSerializer(aluprofe, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except AluProfe.DoesNotExist:
+            return JsonResponse(
+                    {'mensaje':'El registro seleccionado no existe en la base de datos'},
+                     status=status.HTTP_404_NOT_FOUND)
+        except Exception:
+            return JsonResponse(
+                {'mensaje': 'Ocurrio en la lectura del servidor'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def delete(self, request, pk):
+        '''Elimina un registro de acuerdo a su Id'''
+        try:
+            if pk == '0':
+                return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+            aluprofe = AluProfe.objects.get(pk=pk)
+            aluprofe.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except AluProfe.DoesNotExist:
+            return JsonResponse(
+                    {'mensaje':'El registro seleccionado no existe en la base de datos'},
+                     status=status.HTTP_404_NOT_FOUND)
+        except Exception:
+            return JsonResponse(
+                {'mensaje': 'Ocurrio un error en la lectura del servidor'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)                
 
 '''************************************Vista Area*****************************************************'''
 class AreaListView(APIView):
@@ -508,26 +562,8 @@ class ResultadoTestListView(APIView):
 
 class ResultadoTestDetallesView(APIView):
     '''Métodos que sí necesitan de Parámetros'''
-    def get(self, request, pk):
-        '''Busca registros por su Id'''
-        try:
-            if pk == '0':
-                return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
-                                    status=status.HTTP_400_BAD_REQUEST)
-            resultado_test = ResultadoTest.objects.get(pk=pk)
-            serializer = ResultadoTestSerializer(resultado_test)
-            return Response(serializer.data)
-        except ResultadoTest.DoesNotExist:
-            return JsonResponse(
-                    {'mensaje':'El área seleccionada no existe en la base de datos'},
-                     status=status.HTTP_404_NOT_FOUND)
-        except Exception:
-            return JsonResponse(
-                {'mensaje': 'Ocurrio en la lectura del servidor'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    def getByAlumno(self, request, id_alumno):
-        '''Busca registros por su Id_Alumno'''
+    def get(self, request, id_alumno):
+        '''Busca registros por el Id_Alumno'''
         try:
             if id_alumno == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
@@ -584,16 +620,6 @@ class ResultadoTestDetallesView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class ResultadoTestAlumnoView(generics.ListAPIView):
-    serializer_class = ResultadoTestSerializer
-
-    def get_queryset(self):
-        queryset = ResultadoTest.objects.all()
-        alumno = self.request.query_params.get('id_alumno', None)
-        if alumno is not None:
-            queryset = queryset.filter(id_alumno=alumno)
-        return queryset 
-
 '''**********************************Vista ResultadoItem**********************************************'''
 class RItemListRTestView(generics.ListAPIView):
     serializer_class = ResultadoItemSerializer
@@ -617,8 +643,36 @@ class ResultadoItemListView(APIView):
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def diagnosticar(self):
-        ritem = ResultadoItem.objects.all() 
+    def post(self, request):
+        data = request.data # Obtener el  JSON.
+        #data = self.diagnosticar(data)
+        ritem =  ResultadoItem.objects.all() # Obtener los datos de la base de datos        
+        _arr_ritem = [entry for entry in ritem] #Es necesario pasarlo a listas
+        
+        se = AddRItemListSerializer(instance=_arr_ritem, data = data, many = True)   # Serializar los datos
+
+        #validar y guardar
+        if se.is_valid():            
+            se.save()
+            
+            payload = {
+                'codigo': status.HTTP_200_OK,
+                 'mensaje': 'La creación de Lista de ITems se ha realizado con éxito',  
+                 'data': se.data 
+            }
+        else:
+            payload = {
+                'codigo': status.HTTP_400_BAD_REQUEST, 
+                'mensaje': 'Falló',  
+                'data': se.errors
+            }   
+
+        self.diagnosticar(data['id_resultadoTest'])
+
+        return Response(payload, status=status.HTTP_200_OK)
+
+    def diagnosticar(self, id_resultadoTest):
+        ritem = ResultadoItem.objects.get(id_resultadoTest=id_resultadoTest) 
         _arr_ritem = [entry for entry in ritem]
         #Ciclo para recorrer la lista de registros para calcular el porcentaje 
         # de acierto del alumno y aplicar el diagnostico preliminar        
@@ -692,55 +746,91 @@ class ResultadoItemListView(APIView):
                ListaRitem.append(reDic)
 
         data = json.dumps(ListaRitem) 
-        print('La lista es: ', data)
+        print('\n')
+        print('El objeto json es: ', data)
 
 
         #se = UpdateRItemListSerializer(instance=arr_ritem, data = data, many = True)     
 
-        se = UpdateRItemListSerializer(instance=_arr_ritem, data = data, many = True) # Serializar los datos  
+        serializer = UpdateRItemListSerializer(instance=_arr_ritem, data = data, many = True) # Serializar los datos  
 
-        if se.is_valid():               
-            print("paso el is_valid")
-            se.save()
-
-
-    def post(self, request):
-        data = request.data # Obtener el  JSON.
-        #data = self.diagnosticar(data)
-        ritem =  ResultadoItem.objects.all() # Obtener los datos de la base de datos        
-        _arr_ritem = [entry for entry in ritem] #Es necesario pasarlo a listas
         
-        se = AddRItemListSerializer(instance=_arr_ritem, data = data, many = True)   # Serializar los datos
+        # print('\n')
+        # print('Serializer es :', serializer)
+        # print('\n')
 
-        #validar y guardar
-        if se.is_valid():            
-            se.save()
-            self.diagnosticar()
-            payload = {
-                'codigo': status.HTTP_200_OK,
-                 'mensaje': 'La creación de Lista de ITems se ha realizado con éxito',  
-                 'data': se.data 
-            }
+        if serializer.is_valid():               
+          print("paso el is_valid")
+          serializer.save()
         else:
-            payload = {
-                'codigo': status.HTTP_400_BAD_REQUEST, 
-                'mensaje': 'Falló',  
-                'data': se.errors
-            }   
-
-        return Response(payload, status=status.HTTP_200_OK)
+          print("No paso el is_valid /n")
+          #print('Serializer => ', serializer.is_valid)  
 
     def put(self, request):
+        data1 = [
+                    {
+                        "id_resultadoTest": 1,
+                        "id": 327,
+                        "id_area": 1,
+                        "pObtenido": 8,
+                        "indicador": "N",
+                        "observacion": "Esta muy bien sigue asi"
+                    },
+                    {
+                        "id_resultadoTest": 1,
+                        "id": 328,
+                        "id_area": 4,
+                        "pObtenido": 13,
+                        "indicador": "N",
+                        "observacion": "Esta muy bien sigue asi"
+                    },
+                    {
+                        "id_resultadoTest": 1,
+                        "id": 329,
+                        "id_area": 2,
+                        "pObtenido": 1,
+                        "indicador": "S",
+                        "observacion": "Observaci\u00f3n del Area 2 para casos de  riesgo"
+                    },
+                    {
+                        "id_resultadoTest": 1,
+                        "id": 330,
+                        "id_area": 6,
+                        "pObtenido": 2,
+                        "indicador": "S",
+                        "observacion": "Observaci\u00f3n del Area 6 para casos de  riesgo"
+                    },
+                    {
+                        "id_resultadoTest": 1,
+                        "id": 331,
+                        "id_area": 5,
+                        "pObtenido": 8,
+                        "indicador": "N",
+                        "observacion": "Esta muy bien sigue asi"
+                    },
+                    {
+                        "id_resultadoTest": 1,
+                        "id": 332,
+                        "id_area": 3,
+                        "pObtenido": 17,
+                        "indicador": "N",
+                        "observacion": "Esta muy bien sigue asi"
+                    }
+        ]
+        
+        
         data = request.data # Obtener el  JSON.
+
+        print('data: ', data)
+        print('\n')
+        print('data1: ', data1)
+
         ritem =  ResultadoItem.objects.all() # Obtener los datos de la base de datos        
         _arr_ritem = [entry for entry in ritem] #Es necesario pasarlo a listas
         se = UpdateRItemListSerializer(instance=_arr_ritem, data = data, many = True) # Serializar los datos    
-        
-        print('\n')       
-        print('Nooo: ', se)    
 
         #validar y guardar la actualizacón de datos 
-        if se.is_valid():            
+        if se.is_valid():  
             se.save()
             payload = {
                 'codigo': status.HTTP_200_OK,
@@ -790,4 +880,7 @@ class ResultadoItemListDetallesView(APIView):
         except Exception:
             return Response(
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR)        
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)       
+
+
+                 
