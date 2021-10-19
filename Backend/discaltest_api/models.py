@@ -112,7 +112,7 @@ class ResultadoItem(models.Model):
     id_area          = models.ForeignKey(Area, on_delete=models.CASCADE, null=False,  blank=False)
     pObtenido        = models.IntegerField(null=False)
     indicador        = models.CharField(null=True, max_length=1)
-    observacion      = models.CharField(null=True, max_length=250)
+    observacion      = models.CharField(null=True, max_length=500)
     
     def __Str__(self):
        return self.observacion       

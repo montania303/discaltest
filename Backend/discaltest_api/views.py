@@ -9,7 +9,6 @@ from django.http import JsonResponse
 
 from .serializers import *
 from .models import *
-import json
 
 '''*********************************Vista UserLoggin************************************************'''
 @api_view(['POST'])
@@ -94,6 +93,7 @@ class UserProfileDetallesView(APIView):
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     def delete(self, request, pk):
         '''Elimina un registro de acuerdo a su Id'''
         try:
@@ -179,6 +179,7 @@ class EntidadDetallesView(APIView):
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     def delete(self, request, pk):
         '''Elimina un registro de acuerdo a su Id'''
         try:
@@ -264,6 +265,7 @@ class ProfesorDetallesView(APIView):
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     def delete(self, request, pk):
         '''Elimina un registro de acuerdo a su Id'''
         try:
@@ -328,6 +330,7 @@ class AlumnosDetallesView(APIView):
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     def put(self, request, pk):
         '''Actualiza los datos de acuerdo a su Id'''
         try:
@@ -348,6 +351,7 @@ class AlumnosDetallesView(APIView):
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     def delete(self, request, pk):
         '''Elimina un registro de acuerdo a su Id'''
         try:
@@ -429,6 +433,7 @@ class AluprofeDetallesView(APIView):
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     def delete(self, request, pk):
         '''Elimina un registro de acuerdo a su Id'''
         try:
@@ -514,6 +519,7 @@ class AreaDetallesView(APIView):
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     def delete(self, request, pk):
         '''Elimina un registro de acuerdo a su Id'''
         try:
@@ -548,7 +554,7 @@ class ResultadoTestListView(APIView):
 
     def post(self, request):
         try:
-            serializer = ResultadoTestSerializer(data=request.data)
+            serializer = RTestSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data,
@@ -573,21 +579,51 @@ class ResultadoTestDetallesView(APIView):
             return Response(serializer.data)
         except ResultadoTest.DoesNotExist:
             return JsonResponse(
-                    {'mensaje':'El área seleccionada no existe en la base de datos'},
+                    {'mensaje':'El registro de ResultadoTest seleccionado no existe en la base de datos'},
                      status=status.HTTP_404_NOT_FOUND)
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)                
 
-    def put(self, request, pk):
+    def diagnostico_gral(self, data, id):
+       ri = ResultadoItem.objects.all()
+       ritem = ri.filter(id_resultadoTest=id)  
+       i=0
+       CET=False
+       for item in ritem:
+           if item.indicador == 'S': 
+              i += 1
+              if item.id_area.id == 6:
+                 CET = True
+       
+       res = ((i * 100) / 6) 
+       print('res: ', res)
+       if CET:
+           if res > 60:
+              data['indicador'] = 'S'
+              data['observacion'] = 'El/La niño/a necesita de manera urgente ayuda profesional por que obtuvo bajo rendimiento en mas del 60% de las áreas estudiadas, Atención: tener en cuenta que la área de Estimación del tamaño esta incluida en las áreas de bajo rendimiento'                        
+           else:    
+              data['indicador'] = 'S'
+              data['observacion'] = 'El/La niño/a tiene riesgo de discalculia por que obtuvo un bajo rendimiento en el área de Estimación del Tamaño y esta área es de suma importancia en el aprendizaje del niño/a'             
+       else:
+           if res > 60:
+              data['indicador'] = 'S'
+              data['observacion'] = 'El/La niño/a tiene riesgo de discalculia por que obtuvo un bajo rendimiento en mas del 60% de las áreas Estudiadas'                    
+           else:
+              data['indicador'] = 'N'
+              data['observacion'] = data['observacion']
+       return data
+    
+    def put(self, request, id_alumno):
         '''Actualiza los datos de acuerdo a su Id'''
         try:
-            if pk == '0':
+            if id_alumno == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            resultado_test = ResultadoTest.objects.get(pk=pk)
-            serializer = ResultadoTestSerializer(resultado_test, data=request.data)
+            resultado_test = ResultadoTest.objects.get(id_alumno=id_alumno)
+            data = self.diagnostico_gral(request.data, request.data['id'])
+            serializer = RTestSerializer(resultado_test, data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
@@ -601,13 +637,13 @@ class ResultadoTestDetallesView(APIView):
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def delete(self, request, pk):
+    def delete(self, request, id_alumno):
         '''Elimina un registro de acuerdo a su Id'''
         try:
-            if pk == '0':
+            if id_alumno == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            resultado_test = ResultadoTest.objects.get(pk=pk)
+            resultado_test = ResultadoTest.objects.get(id_alumno=id_alumno)
             resultado_test.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except ResultadoTest.DoesNotExist:
@@ -643,128 +679,53 @@ class ResultadoItemListView(APIView):
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def diagnosticar_por_Area(self, data):
+       area =  Area.objects.all().order_by('id')
+       i = 0
+       for item in area:
+           if data[i]['id_area'] == item.id:
+               res = (data[i]['pObtenido'] * 100) / item.pEsperado
+               if res < 60:
+                  data[i]['indicador'] = 'S'
+                  if item.id == 1:                 
+                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de contar es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquií puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=9xCbQMdQ2S4'
+                  if item.id == 2:
+                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de numerar es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=k8etJmnDrYc'  
+                  if item.id == 3:
+                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de Comprensión del Sistema Numérico es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=aqPQ0QkBvOs'  
+                  if item.id == 4:
+                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de Operaciones Lógicas es conveniente que acuda a un profesional para recibir ayuda. y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=72HJrR086A8'  
+                  if item.id == 5:
+                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de Operaciones es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=A-6lytfixEw'  
+                  if item.id == 6:
+                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de Estimación del Tamaño es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=qD2HQQMvXj8 - https://www.youtube.com/watch?v=6NnqL7FKd2w'                                                              
+               else:
+                  data[i]['indicador'] = 'N'
+                  data[i]['observacion'] = 'El/la niño/a tiene un buen rendimiento'                                                              
+           i += 1
+       return data           
+
     def post(self, request):
-        data = request.data # Obtener el  JSON.
-        #data = self.diagnosticar(data)
         ritem =  ResultadoItem.objects.all() # Obtener los datos de la base de datos        
         _arr_ritem = [entry for entry in ritem] #Es necesario pasarlo a listas
-        
+        data = self.diagnosticar_por_Area(request.data) #Activar y cargar los diagnosticos por el motor de inferencia
         se = AddRItemListSerializer(instance=_arr_ritem, data = data, many = True)   # Serializar los datos
-
         #validar y guardar
         if se.is_valid():            
             se.save()
-            
             payload = {
                 'codigo': status.HTTP_200_OK,
-                 'mensaje': 'La creación de Lista de ITems se ha realizado con éxito',  
+                 'mensaje': 'La creación de Lista de items se ha realizado con éxito',  
                  'data': se.data 
             }
         else:
             payload = {
                 'codigo': status.HTTP_400_BAD_REQUEST, 
-                'mensaje': 'Falló',  
+                'mensaje': 'Falló la inserción de items',  
                 'data': se.errors
             }   
 
-        self.diagnosticar(data['id_resultadoTest'])
-
         return Response(payload, status=status.HTTP_200_OK)
-
-    def diagnosticar(self, id_resultadoTest):
-        ritem = ResultadoItem.objects.get(id_resultadoTest=id_resultadoTest) 
-        _arr_ritem = [entry for entry in ritem]
-        #Ciclo para recorrer la lista de registros para calcular el porcentaje 
-        # de acierto del alumno y aplicar el diagnostico preliminar        
-        ret = {}
-        ListaRitem = []
-        for item in ritem:
-            res = 0
-            res =  ((item.pObtenido * 100) / item.id_area.pEsperado)
-            print("El porcentaje es: ", res)
-            if res < 60 :
-              item.indicador = 'S'
-              if item.id_area.id == 1:
-                item.observacion = 'Observación del Area 1 para casos de  riesgo'  
-                
-                ret= [('id_resultadoTest', item.id_resultadoTest.id), ('id', item.id), ('id_area', item.id_area.id), 
-                     ('pObtenido', item.pObtenido), ('indicador', item.indicador), ('observacion', item.observacion)]
-                
-                reDic = dict(ret)
-                
-                ListaRitem.append(reDic)
-
-              elif item.id_area.id == 2:
-                item.observacion =  'Observación del Area 2 para casos de  riesgo'
-
-                ret= [('id_resultadoTest', item.id_resultadoTest.id), ('id', item.id), ('id_area', item.id_area.id), 
-                     ('pObtenido', item.pObtenido), ('indicador', item.indicador), ('observacion', item.observacion)]
-                
-                reDic = dict(ret)
-                ListaRitem.append(reDic)
-
-              elif item.id_area.id == 3:
-                item.observacion = 'Observación del Area 3 para casos de  riesgo'
-                
-                ret= [('id_resultadoTest', item.id_resultadoTest.id), ('id', item.id), ('id_area', item.id_area.id), 
-                     ('pObtenido', item.pObtenido), ('indicador', item.indicador), ('observacion', item.observacion)]
-                
-                reDic = dict(ret)
-                ListaRitem.append(reDic)
-              elif item.id_area.id == 4:
-                item.observacion = 'Observación del Area 4 para casos de  riesgo'
-                
-                ret= [('id_resultadoTest', item.id_resultadoTest.id), ('id', item.id), ('id_area', item.id_area.id), 
-                     ('pObtenido', item.pObtenido), ('indicador', item.indicador), ('observacion', item.observacion)]
-                
-                reDic = dict(ret)
-                ListaRitem.append(reDic)
-              elif item.id_area.id == 5:                                                
-                item.observacion = 'Observación del Area 5 para casos de  riesgo'
-
-                ret= [('id_resultadoTest', item.id_resultadoTest.id), ('id', item.id), ('id_area', item.id_area.id), 
-                     ('pObtenido', item.pObtenido), ('indicador', item.indicador), ('observacion', item.observacion)]
-                
-                reDic = dict(ret)
-                ListaRitem.append(reDic)
-              elif item.id_area.id == 6: 
-                item.observacion = 'Observación del Area 6 para casos de  riesgo'
-
-                ret= [('id_resultadoTest', item.id_resultadoTest.id), ('id', item.id), ('id_area', item.id_area.id), 
-                     ('pObtenido', item.pObtenido), ('indicador', item.indicador), ('observacion', item.observacion)]
-                
-                reDic = dict(ret)
-                ListaRitem.append(reDic)
-            else:
-               item.indicador = 'N'
-               item.observacion = 'Esta muy bien sigue asi'
-               
-               ret= [('id_resultadoTest', item.id_resultadoTest.id), ('id', item.id), ('id_area', item.id_area.id), 
-                     ('pObtenido', item.pObtenido), ('indicador', item.indicador), ('observacion', item.observacion)]
-                
-               reDic = dict(ret)
-               ListaRitem.append(reDic)
-
-        data = json.dumps(ListaRitem) 
-        print('\n')
-        print('El objeto json es: ', data)
-
-
-        #se = UpdateRItemListSerializer(instance=arr_ritem, data = data, many = True)     
-
-        serializer = UpdateRItemListSerializer(instance=_arr_ritem, data = data, many = True) # Serializar los datos  
-
-        
-        # print('\n')
-        # print('Serializer es :', serializer)
-        # print('\n')
-
-        if serializer.is_valid():               
-          print("paso el is_valid")
-          serializer.save()
-        else:
-          print("No paso el is_valid /n")
-          #print('Serializer => ', serializer.is_valid)  
 
     def put(self, request):
         data1 = [
@@ -869,18 +830,21 @@ class ResultadoItemListView(APIView):
         return Response(payload, status=status.HTTP_200_OK)                
 
 
-#Esta clase no funciona pero dejo para ver si mañana la hago funcionar
 class ResultadoItemListDetallesView(APIView):
-    def get(self, request, id_resultadoTest):
+    def get(self, request, id_rTest):
+        '''Busca registros por el Id_Alumno'''
         try:
-            Lista_ResultadoItem = ResultadoItem.objects.get(id_resultadoTest=id_resultadoTest)            
-            print('Lista:', Lista_ResultadoItem)
-            serializer = ResultadoItemSerializer(Lista_ResultadoItem, many=True)
+            if id_rTest == '0':
+                return JsonResponse({'mensaje': 'El id debe ser mayor a zero'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+            resultado_item = ResultadoItem.objects.filter(id_resultadoTest__in=id_rTest)
+            serializer = ResultadoItemSerializer(resultado_item, many=True)
             return Response(serializer.data)
+        except ResultadoItem.DoesNotExist:
+            return JsonResponse(
+                    {'mensaje':'La lista de items no se encuentra en la base de datos'},
+                     status=status.HTTP_404_NOT_FOUND)
         except Exception:
-            return Response(
-                {'mensaje': 'Ocurrio un error en la lectura del servidor'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR)       
-
-
-                 
+            return JsonResponse(
+                {'mensaje': 'Ocurrio en la lectura del servidor'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)                     

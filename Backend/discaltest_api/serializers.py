@@ -79,6 +79,11 @@ class ResultadoTestSerializer(serializers.ModelSerializer):
         model = ResultadoTest
         fields = ["id", "id_alumno", "id_profesor", "indicador", "observacion"]      
 
+class RTestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResultadoTest
+        fields = ["id", "id_alumno", "id_profesor", "indicador", "observacion"]    
+
 class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
@@ -86,12 +91,17 @@ class AreaSerializer(serializers.ModelSerializer):
 
 class ResultadoItemSerializer(serializers.ModelSerializer):
     id_area = AreaSerializer()
-    id_resultadoTest = ProfesorSerializer()
+    id_resultadoTest = ResultadoTestSerializer()
     
     class Meta:
         model = ResultadoItem
-        fields = ["id_resultadoTest", "id", "id_area", "pObtenido", "indicador", "observacion"]      
+        fields = ["id_resultadoTest", "id", "id_area", "pObtenido", "indicador", "observacion"] 
 
+class RItemSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = ResultadoItem
+        fields = ["id_resultadoTest", "id", "id_area", "pObtenido", "indicador", "observacion"]                  
 
 #Abm Métodos Serializer
 class RItemUpdateListSerializer(serializers.ListSerializer):
