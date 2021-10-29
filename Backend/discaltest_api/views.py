@@ -554,17 +554,23 @@ class ResultadoTestListView(APIView):
 
     def post(self, request):
         try:
+          resultado_test = ResultadoTest.objects.get(id_alumno=request.data['id_alumno'])  
+          if resultado_test is None:
             serializer = RTestSerializer(data=request.data)
             if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data,
-                                status=status.HTTP_201_CREATED)
+               serializer.save()
+               return Response(serializer.data,
+                               status=status.HTTP_201_CREATED)
             return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+                             status=status.HTTP_400_BAD_REQUEST)
+          else:
+            return JsonResponse({'mensaje': 'Este alumno ya realizó el test'},
+                                    status=status.HTTP_400_BAD_REQUEST)   
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class ResultadoTestDetallesView(APIView):
     '''Métodos que sí necesitan de Parámetros'''
@@ -706,85 +712,40 @@ class ResultadoItemListView(APIView):
        return data           
 
     def post(self, request):
-        ritem =  ResultadoItem.objects.all() # Obtener los datos de la base de datos        
-        _arr_ritem = [entry for entry in ritem] #Es necesario pasarlo a listas
-        data = self.diagnosticar_por_Area(request.data) #Activar y cargar los diagnosticos por el motor de inferencia
-        se = AddRItemListSerializer(instance=_arr_ritem, data = data, many = True)   # Serializar los datos
-        #validar y guardar
-        if se.is_valid():            
-            se.save()
-            payload = {
-                'codigo': status.HTTP_200_OK,
-                 'mensaje': 'La creación de Lista de items se ha realizado con éxito',  
-                 'data': se.data 
-            }
-        else:
-            payload = {
-                'codigo': status.HTTP_400_BAD_REQUEST, 
-                'mensaje': 'Falló la inserción de items',  
-                'data': se.errors
-            }   
+        resultado_item = self.BuscaRItemTest(request.data[0]['id_resultadoTest'])
+        if resultado_item is None:      
+            ritem =  ResultadoItem.objects.all() # Obtener los datos de la base de datos        
+            _arr_ritem = [entry for entry in ritem] #Es necesario pasarlo a listas
+            data = self.diagnosticar_por_Area(request.data) #Activar y cargar los diagnosticos por el motor de inferencia
+            se = AddRItemListSerializer(instance=_arr_ritem, data = data, many = True) # Serializar los datos
+            #validar y guardar
+            if se.is_valid():            
+                se.save()
+                payload = {
+                    'codigo': status.HTTP_200_OK,
+                    'mensaje': 'La creación de Lista de items se ha realizado con éxito',  
+                    'data': se.data 
+                }
+            else:
+                payload = {
+                    'codigo': status.HTTP_400_BAD_REQUEST, 
+                    'mensaje': 'Falló la inserción de items',  
+                    'data': se.errors
+                }   
 
-        return Response(payload, status=status.HTTP_200_OK)
+            return Response(payload, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse({'mensaje': 'Los Registros ya existen en la base de datos'},
+                                    status=status.HTTP_400_BAD_REQUEST)    
+
+
+    def BuscaRItemTest(self, id_rTest):
+        resultado_item = ResultadoItem.objects.filter(id_resultadoTest__in=[id_rTest,id_rTest,id_rTest,id_rTest,id_rTest,id_rTest])
+        print('ResultadoItem', resultado_item)                   
+        return resultado_item
 
     def put(self, request):
-        data1 = [
-                    {
-                        "id_resultadoTest": 1,
-                        "id": 327,
-                        "id_area": 1,
-                        "pObtenido": 8,
-                        "indicador": "N",
-                        "observacion": "Esta muy bien sigue asi"
-                    },
-                    {
-                        "id_resultadoTest": 1,
-                        "id": 328,
-                        "id_area": 4,
-                        "pObtenido": 13,
-                        "indicador": "N",
-                        "observacion": "Esta muy bien sigue asi"
-                    },
-                    {
-                        "id_resultadoTest": 1,
-                        "id": 329,
-                        "id_area": 2,
-                        "pObtenido": 1,
-                        "indicador": "S",
-                        "observacion": "Observaci\u00f3n del Area 2 para casos de  riesgo"
-                    },
-                    {
-                        "id_resultadoTest": 1,
-                        "id": 330,
-                        "id_area": 6,
-                        "pObtenido": 2,
-                        "indicador": "S",
-                        "observacion": "Observaci\u00f3n del Area 6 para casos de  riesgo"
-                    },
-                    {
-                        "id_resultadoTest": 1,
-                        "id": 331,
-                        "id_area": 5,
-                        "pObtenido": 8,
-                        "indicador": "N",
-                        "observacion": "Esta muy bien sigue asi"
-                    },
-                    {
-                        "id_resultadoTest": 1,
-                        "id": 332,
-                        "id_area": 3,
-                        "pObtenido": 17,
-                        "indicador": "N",
-                        "observacion": "Esta muy bien sigue asi"
-                    }
-        ]
-        
-        
         data = request.data # Obtener el  JSON.
-
-        print('data: ', data)
-        print('\n')
-        print('data1: ', data1)
 
         ritem =  ResultadoItem.objects.all() # Obtener los datos de la base de datos        
         _arr_ritem = [entry for entry in ritem] #Es necesario pasarlo a listas
@@ -832,13 +793,14 @@ class ResultadoItemListView(APIView):
 
 class ResultadoItemListDetallesView(APIView):
     def get(self, request, id_rTest):
-        '''Busca registros por el Id_Alumno'''
+        '''Busca registros por el '''
         try:
             if id_rTest == '0':
                 return JsonResponse({'mensaje': 'El id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
             resultado_item = ResultadoItem.objects.filter(id_resultadoTest__in=id_rTest)
-            serializer = ResultadoItemSerializer(resultado_item, many=True)
+            print('ResultadoItem', resultado_item)
+            serializer = RItemSerializer(resultado_item, many=True)
             return Response(serializer.data)
         except ResultadoItem.DoesNotExist:
             return JsonResponse(
