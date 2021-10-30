@@ -400,18 +400,27 @@ class AluprofeDetallesView(APIView):
     '''Métodos que sí necesitan de Parámetros'''
     def get(self, request, nro_documento):
         '''Busca registros por su Nro documento'''
-        try:
-            alumno = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
-            serializer = AluProfeSerializer(alumno)
-            return Response(serializer.data)
-        except AluProfe.DoesNotExist:
-            return JsonResponse(
-                    {'mensaje':'El alumno no esta registrado en la base de datos'},
-                     status=status.HTTP_404_NOT_FOUND)
-        except Exception:
-            return JsonResponse(
-                {'mensaje': 'Ocurrio en la lectura del servidor'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        #try:
+        alumno = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
+        resultado_test = ResultadoTest.objects.filter(id_alumno=alumno.id_alumno.id) ## request.data['id_alumno'])  
+        print('Resultado', resultado_test)
+        if resultado_test is 'Null':                    
+           alu = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
+           serializer = AluProfeSerializer(alu)
+           return Response(serializer.data)   
+        else:
+           return JsonResponse({'mensaje': 'Este alumno ya realizó el test'},
+                                status=status.HTTP_400_BAD_REQUEST) 
+           
+            
+        # except AluProfe.DoesNotExist:
+        #     return JsonResponse(
+        #             {'mensaje':'El alumno no esta registrado en la base de datos'},
+        #              status=status.HTTP_404_NOT_FOUND)
+        # except Exception:
+        #     return JsonResponse(
+        #         {'mensaje': 'Ocurrio un error en la lectura del servidor'},
+        #         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def put(self, request, pk):
         '''Actualiza los datos de acuerdo a su Id'''
@@ -539,7 +548,7 @@ class AreaDetallesView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-'''**********************************Vista ResultadoTest**********************************************'''
+'''**********************************Vista ResultadoTest++**********************************************'''
 class ResultadoTestListView(APIView):
     '''Métodos que no necesitan de Parámetros'''
     def get(self, request):
@@ -737,7 +746,6 @@ class ResultadoItemListView(APIView):
         else:
             return JsonResponse({'mensaje': 'Los Registros ya existen en la base de datos'},
                                     status=status.HTTP_400_BAD_REQUEST)    
-
 
     def BuscaRItemTest(self, id_rTest):
         resultado_item = ResultadoItem.objects.filter(id_resultadoTest__in=[id_rTest,id_rTest,id_rTest,id_rTest,id_rTest,id_rTest])
