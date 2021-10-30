@@ -406,7 +406,7 @@ class AluprofeDetallesView(APIView):
           #print('Resultado', resultado_test)
           #if resultado_test is 'Null':                    
           #alu = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
-          serializer = AluProfeSerializer(alu)
+          serializer = AluProfeSerializer(alumno)
           return Response(serializer.data)   
         # else:
         #    return JsonResponse({'mensaje': 'Este alumno ya realizó el test'},
