@@ -41,6 +41,11 @@ class UserProfileListView(APIView):
     def post(self, request):
         '''Inserta un nuevo registro en la DB'''
         try:
+          ValidaExistencia = UserProfile.objects.filter(loggin=request.data['loggin']).exists()
+          if ValidaExistencia:
+            return JsonResponse({'mensaje': 'Este Usuario ya está registrado'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+          else:
             serializer = UserProfileSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -213,6 +218,11 @@ class ProfesorListView(APIView):
 
     def post(self, request):
         try:
+          ValidaExistencia = Profesor.objects.filter(id_entidad=request.data['id_entidad']).exists()
+          if ValidaExistencia:
+            return JsonResponse({'mensaje': 'Este Profesor ya se encuentra registrado.'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+          else:            
             serializer = ProfesorSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -299,6 +309,11 @@ class AlumnosListView(APIView):
 
     def post(self, request):
         try:
+          ValidaExistencia = Alumno.objects.filter(id_entidad=request.data['id_entidad']).exists()
+          if ValidaExistencia:
+            return JsonResponse({'mensaje': 'Este Alumno ya se encuentra Registrado'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+          else:    
             serializer = AlumnosSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -402,17 +417,14 @@ class AluprofeDetallesView(APIView):
         '''Busca registros por su Nro documento'''
         try:
           alumno = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
-          #resultado_test = ResultadoTest.objects.filter(id_alumno=alumno.id_alumno.id) ## request.data['id_alumno'])  
-          #print('Resultado', resultado_test)
-          #if resultado_test is 'Null':                    
-          #alu = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
-          serializer = AluProfeSerializer(alumno)
-          return Response(serializer.data)   
-        # else:
-        #    return JsonResponse({'mensaje': 'Este alumno ya realizó el test'},
-        #                         status=status.HTTP_400_BAD_REQUEST) 
-           
-            
+          resultado_test = ResultadoTest.objects.filter(id_alumno=alumno.id_alumno.id).exists()  
+          if resultado_test:                    
+            return JsonResponse({'mensaje': 'Este alumno ya realizó el test'},
+                                 status=status.HTTP_400_BAD_REQUEST)  
+          else:
+            alu = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
+            serializer = AluProfeSerializer(alumno)
+            return Response(serializer.data)          
         except AluProfe.DoesNotExist:
             return JsonResponse(
                     {'mensaje':'El alumno no esta registrado en la base de datos'},
@@ -476,6 +488,11 @@ class AreaListView(APIView):
 
     def post(self, request):
         try:
+          ValidaExistencia = Area.objects.filter(descripcion=request.data['descripcion']).exists()
+          if ValidaExistencia:
+            return JsonResponse({'mensaje': 'Esta Area ya esta registrada'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+          else:     
             serializer = AreaSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -563,8 +580,11 @@ class ResultadoTestListView(APIView):
 
     def post(self, request):
         try:
-          resultado_test = ResultadoTest.objects.get(id_alumno=request.data['id_alumno'])  
-          if resultado_test is None:
+          resultado_test = ResultadoTest.objects.filter(id_alumno=request.data['id_alumno']).exists()
+          if resultado_test:
+            return JsonResponse({'mensaje': 'Este alumno ya realizó el test'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+          else:
             serializer = RTestSerializer(data=request.data)
             if serializer.is_valid():
                serializer.save()
@@ -572,9 +592,6 @@ class ResultadoTestListView(APIView):
                                status=status.HTTP_201_CREATED)
             return Response(serializer.errors,
                              status=status.HTTP_400_BAD_REQUEST)
-          else:
-            return JsonResponse({'mensaje': 'Este alumno ya realizó el test'},
-                                    status=status.HTTP_400_BAD_REQUEST)   
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
@@ -721,8 +738,11 @@ class ResultadoItemListView(APIView):
        return data           
 
     def post(self, request):
-        resultado_item = self.BuscaRItemTest(request.data[0]['id_resultadoTest'])
-        if resultado_item is None:      
+        ValidaExistencia = self.BuscaRItemTest(request.data[0]['id_resultadoTest'])
+        if ValidaExistencia:      
+            return JsonResponse({'mensaje': 'Los Registros ya existen en la base de datos'},
+                                 status=status.HTTP_400_BAD_REQUEST)  
+        else:
             ritem =  ResultadoItem.objects.all() # Obtener los datos de la base de datos        
             _arr_ritem = [entry for entry in ritem] #Es necesario pasarlo a listas
             data = self.diagnosticar_por_Area(request.data) #Activar y cargar los diagnosticos por el motor de inferencia
@@ -743,13 +763,9 @@ class ResultadoItemListView(APIView):
                 }   
 
             return Response(payload, status=status.HTTP_200_OK)
-        else:
-            return JsonResponse({'mensaje': 'Los Registros ya existen en la base de datos'},
-                                    status=status.HTTP_400_BAD_REQUEST)    
-
+    
     def BuscaRItemTest(self, id_rTest):
-        resultado_item = ResultadoItem.objects.filter(id_resultadoTest__in=[id_rTest,id_rTest,id_rTest,id_rTest,id_rTest,id_rTest])
-        print('ResultadoItem', resultado_item)                   
+        resultado_item = ResultadoItem.objects.filter(id_resultadoTest__in=[id_rTest,id_rTest,id_rTest,id_rTest,id_rTest,id_rTest]).exists()                   
         return resultado_item
 
     def put(self, request):
