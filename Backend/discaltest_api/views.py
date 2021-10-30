@@ -400,27 +400,27 @@ class AluprofeDetallesView(APIView):
     '''Métodos que sí necesitan de Parámetros'''
     def get(self, request, nro_documento):
         '''Busca registros por su Nro documento'''
-        #try:
-        alumno = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
-        resultado_test = ResultadoTest.objects.filter(id_alumno=alumno.id_alumno.id) ## request.data['id_alumno'])  
-        print('Resultado', resultado_test)
-        if resultado_test is 'Null':                    
-           alu = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
-           serializer = AluProfeSerializer(alu)
-           return Response(serializer.data)   
-        else:
-           return JsonResponse({'mensaje': 'Este alumno ya realizó el test'},
-                                status=status.HTTP_400_BAD_REQUEST) 
+        try:
+          alumno = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
+          #resultado_test = ResultadoTest.objects.filter(id_alumno=alumno.id_alumno.id) ## request.data['id_alumno'])  
+          #print('Resultado', resultado_test)
+          #if resultado_test is 'Null':                    
+          #alu = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
+          serializer = AluProfeSerializer(alu)
+          return Response(serializer.data)   
+        # else:
+        #    return JsonResponse({'mensaje': 'Este alumno ya realizó el test'},
+        #                         status=status.HTTP_400_BAD_REQUEST) 
            
             
-        # except AluProfe.DoesNotExist:
-        #     return JsonResponse(
-        #             {'mensaje':'El alumno no esta registrado en la base de datos'},
-        #              status=status.HTTP_404_NOT_FOUND)
-        # except Exception:
-        #     return JsonResponse(
-        #         {'mensaje': 'Ocurrio un error en la lectura del servidor'},
-        #         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except AluProfe.DoesNotExist:
+            return JsonResponse(
+                    {'mensaje':'El alumno no esta registrado en la base de datos'},
+                     status=status.HTTP_404_NOT_FOUND)
+        except Exception:
+            return JsonResponse(
+                {'mensaje': 'Ocurrio un error en la lectura del servidor'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def put(self, request, pk):
         '''Actualiza los datos de acuerdo a su Id'''
