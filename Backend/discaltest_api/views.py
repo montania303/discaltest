@@ -619,18 +619,18 @@ class ResultadoTestDetallesView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)                
 
     def diagnostico_gral(self, data, id):
-       ri = ResultadoItem.objects.all()
-       ritem = ri.filter(id_resultadoTest=id)  
+       id_rTest = data['id']
+       ritem = ResultadoItem.objects.filter(id_resultadoTest__in=[id_rTest,id_rTest,id_rTest,id_rTest,id_rTest,id_rTest])
        i=0
        CET=False
+
        for item in ritem:
            if item.indicador == 'S': 
               i += 1
               if item.id_area.id == 6:
                  CET = True
-       
+                 
        res = ((i * 100) / 6) 
-       print('res: ', res)
        if CET:
            if res > 60:
               data['indicador'] = 'S'
@@ -653,8 +653,10 @@ class ResultadoTestDetallesView(APIView):
             if id_alumno == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
+
             resultado_test = ResultadoTest.objects.get(id_alumno=id_alumno)
             data = self.diagnostico_gral(request.data, request.data['id'])
+            #print("\n Data: ", data)
             serializer = RTestSerializer(resultado_test, data)
             if serializer.is_valid():
                 serializer.save()
@@ -704,7 +706,7 @@ class ResultadoItemListView(APIView):
     def get(self, request):
         try:
             Lista_ResultadoItem = ResultadoItem.objects.all().order_by("id_resultadoTest")            
-            serializer = ResultadoItemSerializer(Lista_ResultadoItem, many=True)
+            serializer = RItemSerializer(Lista_ResultadoItem, many=True)
             return Response(serializer.data)
         except Exception:
             return Response(
@@ -822,8 +824,8 @@ class ResultadoItemListDetallesView(APIView):
             if id_rTest == '0':
                 return JsonResponse({'mensaje': 'El id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            resultado_item = ResultadoItem.objects.filter(id_resultadoTest__in=id_rTest)
-            print('ResultadoItem', resultado_item)
+
+            resultado_item = ResultadoItem.objects.filter(id_resultadoTest__in=[id_rTest,id_rTest, id_rTest, id_rTest,id_rTest,id_rTest])
             serializer = RItemSerializer(resultado_item, many=True)
             return Response(serializer.data)
         except ResultadoItem.DoesNotExist:
@@ -833,4 +835,26 @@ class ResultadoItemListDetallesView(APIView):
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR)                     
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)               
+
+
+class VistaResultadoView(APIView):
+    def get(self, request, id_profesor):
+        '''Busca los resultados por el id_Profesor '''
+        try:
+            if id_profesor == '0':
+                return JsonResponse({'mensaje': 'El id debe ser mayor a zero'}, 
+                                    status=status.HTTP_400_BAD_REQUEST)
+            
+            resultado = ResultadoItem.objects.filter(id_resultadoTest__id_profesor__id__in=[id_profesor, id_profesor,id_profesor,
+                                                                    id_profesor,id_profesor,id_profesor]).order_by('id_resultadoTest__id_alumno')
+            serializer = VistaResultadosSerializer(resultado, many=True)
+            return Response(serializer.data)
+        except ResultadoItem.DoesNotExist:
+            return JsonResponse(
+                    {'mensaje':'La lista de items no se encuentra en la base de datos'},
+                     status=status.HTTP_404_NOT_FOUND)
+        except Exception:
+            return JsonResponse(
+                {'mensaje': 'Ocurrio en la lectura del servidor'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)                                         

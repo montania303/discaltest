@@ -103,6 +103,21 @@ class RItemSerializer(serializers.ModelSerializer):
         model = ResultadoItem
         fields = ["id_resultadoTest", "id", "id_area", "pObtenido", "indicador", "observacion"]                  
 
+
+class VistaTestSerializer(serializers.ModelSerializer):
+    id_alumno = AlumnosSerializer()
+    class Meta:
+        model = ResultadoTest
+        fields = ["id", "id_alumno", "id_profesor", "indicador", "observacion"] 
+
+class VistaResultadosSerializer(serializers.ModelSerializer):
+    id_area = AreaSerializer()
+    id_resultadoTest = VistaTestSerializer()
+
+    class Meta:
+        model = ResultadoItem
+        fields = ["id_resultadoTest", "id_area", "pObtenido", "indicador", "observacion"]   
+
 #Abm Métodos Serializer
 class RItemUpdateListSerializer(serializers.ListSerializer):
     """ Recibe dos listas para comparar los datos """
@@ -118,7 +133,7 @@ class RItemUpdateListSerializer(serializers.ListSerializer):
         for _id, data in area_mapping.items():
             ritem = mapping.get(_id, None)    
             if not ritem is None:                
-                ret.append(self.child.update(ritem, data))  #ret.append(self.child.   update(ritem, data)) 
+                ret.append(self.child.update(ritem, data))
 
         
         
@@ -133,18 +148,18 @@ class RItemCreateListSerializer(serializers.ListSerializer):
 
     def update(self, instance, validated_data):     
 
-        mapping = {ritem.id_area: ritem for ritem in instance}
+        mapping = {ritem.id_resultadoTest: ritem for ritem in instance}
         area_mapping = {item['id_area']: item for item in validated_data}
 
         ret = []
         for _id, data in area_mapping.items():
           ritem = mapping.get(_id, None)    
-          if ritem is None:                 
+          if ritem is None:     
             ret.append(self.child.create(data))
           else:
-            print('El registro ya existe en la base de datos')     
+            print('El registro ya existe en la base de datos')
 
-        return ret        
+        return ret       
 
 class RItemDeleteListSerializer(serializers.ListSerializer):
     """ Recibe dos listas para comparar los datos """

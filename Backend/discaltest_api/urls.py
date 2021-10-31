@@ -20,6 +20,7 @@ urlpatterns = [
     path('RItemListRTest/', RItemListRTestView.as_view()),
     path('ResultadoItemList/', views.ResultadoItemListView.as_view()),
     path('ResultadoItemListDetalles/<id_rTest>', ResultadoItemListDetallesView.as_view()),
+    path('Resultados/<id_profesor>', VistaResultadoView.as_view()),
     path('loggin/', views.login),
 
 ]
