@@ -52,7 +52,7 @@ class Entidad(models.Model):
     nro_documento = models.CharField(max_length=60, null=False, unique=True)
     nombre = models.CharField(max_length=60, null=False)
     apellido = models.CharField(max_length=60, null=False)    
-    telefono = models.CharField(max_length=20)
+    telefono = models.CharField(max_length=20, unique=True)
     direccion = models.CharField(max_length=20)
    
    
@@ -117,5 +117,59 @@ class ResultadoItem(models.Model):
     def __Str__(self):
        return self.observacion       
 
+class VistaResultados(models.Model):
+  id_resultadoTest = models.ForeignKey(ResultadoTest,  on_delete=models.DO_NOTHING)
+  id_profesor      = models.ForeignKey(Profesor,  on_delete=models.DO_NOTHING)
+  id_alumno        = models.ForeignKey(Alumnos,  on_delete=models.DO_NOTHING)
+  descripcion      = models.CharField(max_length=120)
+  pObtenido        = models.IntegerField()
+  documento        = models.IntegerField()
+  indicador        = models.CharField(max_length=1)
+  observacion      = models.CharField(max_length=500)
+
+  class Meta:
+      managed = False
+      db_table = 'vista_resultados'
 
 
+class Resultados(models.Model):
+    id_resultadotest = models.IntegerField()
+    id_alumno        = models.IntegerField()
+    nombre_alumno    = models.CharField(max_length=120)
+    nro_documento    = models.CharField(max_length=20)
+    c_id             = models.IntegerField()
+    c_pobtenido      = models.IntegerField()
+    c_pesperado      = models.IntegerField()
+    c_indicador      = models.CharField(max_length=1) 
+    c_observacion    = models.CharField(max_length=500)
+    n_id             = models.IntegerField()
+    n_pobtenido      = models.IntegerField()
+    n_pesperado      = models.IntegerField()
+    n_indicador      = models.CharField(max_length=1) 
+    n_observacion    = models.CharField(max_length=500)
+    sn_id            = models.IntegerField()
+    sn_pobtenido     = models.IntegerField()
+    sn_pesperado     = models.IntegerField()
+    sn_indicador     = models.CharField(max_length=1) 
+    sn_observacion   = models.CharField(max_length=500)    
+    opl_id           = models.IntegerField()
+    opl_pobtenido    = models.IntegerField()
+    opl_pesperado    = models.IntegerField()
+    opl_indicador    = models.CharField(max_length=1) 
+    opl_observacion  = models.CharField(max_length=500)
+    op_id            = models.IntegerField()
+    op_pobtenido     = models.IntegerField()
+    op_pesperado     = models.IntegerField()
+    op_indicador     = models.CharField(max_length=1) 
+    op_observacion   = models.CharField(max_length=500)
+    et_id            = models.IntegerField()
+    et_pobtenido     = models.IntegerField()
+    et_pesperado     = models.IntegerField()
+    et_indicador     = models.CharField(max_length=1) 
+    et_observacion   = models.CharField(max_length=500)    
+    indicador        = models.CharField(max_length=1) 
+    observacion      = models.CharField(max_length=500) 
+
+    class Meta:
+      managed = False
+      db_table = 'v_resultados'    

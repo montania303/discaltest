@@ -104,19 +104,26 @@ class RItemSerializer(serializers.ModelSerializer):
         fields = ["id_resultadoTest", "id", "id_area", "pObtenido", "indicador", "observacion"]                  
 
 
-class VistaTestSerializer(serializers.ModelSerializer):
-    id_alumno = AlumnosSerializer()
-    class Meta:
-        model = ResultadoTest
-        fields = ["id", "id_alumno", "id_profesor", "indicador", "observacion"] 
-
 class VistaResultadosSerializer(serializers.ModelSerializer):
-    id_area = AreaSerializer()
-    id_resultadoTest = VistaTestSerializer()
 
     class Meta:
-        model = ResultadoItem
-        fields = ["id_resultadoTest", "id_area", "pObtenido", "indicador", "observacion"]   
+        model = VistaResultados
+        fields = ["id_resultadoTest_id", "id_profesor_id", "id_alumno_id", "descripcion", "pObtenido", "documento", "indicador", "observacion"]        
+
+
+class VResultadosSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Resultados
+        fields = ["id_resultadotest", "id_alumno", "nombre_alumno", "nro_documento", 
+                  "c_id", "c_pobtenido", "c_pesperado", "c_indicador", "c_observacion",
+                  "n_id", "n_pobtenido", "n_pesperado", "n_indicador", "n_observacion",
+                  "sn_id", "sn_pobtenido", "sn_pesperado", "sn_indicador", "sn_observacion",
+                  "opl_id", "opl_pobtenido", "opl_pesperado", "opl_indicador", "opl_observacion",
+                  "op_id", "op_pobtenido", "op_pesperado", "op_indicador", "op_observacion",
+                  "et_id", "et_pobtenido", "et_pesperado", "et_indicador", "et_observacion",                  
+                  "indicador", "observacion"]        
+
 
 #Abm Métodos Serializer
 class RItemUpdateListSerializer(serializers.ListSerializer):

@@ -6,6 +6,7 @@ from rest_framework import generics
 from rest_framework import status
 
 from django.http import JsonResponse
+from django.db import connection
 
 from .serializers import *
 from .models import *
@@ -839,15 +840,11 @@ class ResultadoItemListDetallesView(APIView):
 
 
 class VistaResultadoView(APIView):
-    def get(self, request, id_profesor):
+    def get(self, request):
         '''Busca los resultados por el id_Profesor '''
         try:
-            if id_profesor == '0':
-                return JsonResponse({'mensaje': 'El id debe ser mayor a zero'}, 
-                                    status=status.HTTP_400_BAD_REQUEST)
-            
-            resultado = ResultadoItem.objects.filter(id_resultadoTest__id_profesor__id__in=[id_profesor, id_profesor,id_profesor,
-                                                                    id_profesor,id_profesor,id_profesor]).order_by('id_resultadoTest__id_alumno')
+            resultado = VistaResultados.objects.all()
+            print("Resultado:", resultado) 
             serializer = VistaResultadosSerializer(resultado, many=True)
             return Response(serializer.data)
         except ResultadoItem.DoesNotExist:
@@ -858,3 +855,20 @@ class VistaResultadoView(APIView):
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)                                         
+
+class Vista_ResultadoView(APIView):
+    def get(self, request):
+        '''Busca los resultados por el id_Profesor '''
+        try:
+            resultado = Resultados.objects.all()
+            print("Resultado:", resultado) 
+            serializer = VResultadosSerializer(resultado, many=True)
+            return Response(serializer.data)
+        except ResultadoItem.DoesNotExist:
+            return JsonResponse(
+                    {'mensaje':'La lista de items no se encuentra en la base de datos'},
+                     status=status.HTTP_404_NOT_FOUND)
+        except Exception:
+            return JsonResponse(
+                {'mensaje': 'Ocurrio en la lectura del servidor'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)                                                         
