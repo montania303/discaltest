@@ -310,12 +310,12 @@ class AlumnosListView(APIView):
 
     def post(self, request):
         try:
-          ValidaExistencia = Alumno.objects.filter(id_entidad=request.data['id_entidad']).exists()
+          ValidaExistencia = Alumnos.objects.filter(id_entidad=request.data['id_entidad']).exists()
           if ValidaExistencia:
             return JsonResponse({'mensaje': 'Este Alumno ya se encuentra Registrado'},
                                     status=status.HTTP_400_BAD_REQUEST)
           else:    
-            serializer = AlumnosSerializer(data=request.data)
+            serializer = AluSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data,
@@ -400,7 +400,7 @@ class AluProfeListView(APIView):
 
     def post(self, request):
         try:
-            serializer = AluProfeSerializer(data=request.data)
+            serializer = AlumnoProfesorSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data,

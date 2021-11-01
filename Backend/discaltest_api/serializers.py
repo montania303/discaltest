@@ -56,6 +56,12 @@ class ProfesorSerializer(serializers.ModelSerializer):
         model = Profesor
         fields = ["id", "id_entidad", "curso"]
 
+class AluSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Alumnos
+        fields = ["id", "id_entidad"]
+
 class AlumnosSerializer(serializers.ModelSerializer):
     id_entidad = EntidadSerializer()
 
@@ -63,13 +69,19 @@ class AlumnosSerializer(serializers.ModelSerializer):
         model = Alumnos
         fields = ["id", "id_entidad"]
 
+class AlumnoProfesorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AluProfe
+        fields = ["id", "id_alumno", "id_profesor"]
+
 class AluProfeSerializer(serializers.ModelSerializer):
     id_alumno = AlumnosSerializer()
     id_profesor = ProfesorSerializer()
 
     class Meta:
         model = AluProfe
-        fields = ["id", "id_alumno", "id_profesor"]
+        fields = ["id", "id_alumno", "id_profesor"]        
 
 class ResultadoTestSerializer(serializers.ModelSerializer):
     id_alumno = AlumnosSerializer()
