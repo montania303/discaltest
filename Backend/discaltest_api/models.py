@@ -117,21 +117,6 @@ class ResultadoItem(models.Model):
     def __Str__(self):
        return self.observacion       
 
-class VistaResultados(models.Model):
-  id_resultadoTest = models.ForeignKey(ResultadoTest,  on_delete=models.DO_NOTHING)
-  id_profesor      = models.ForeignKey(Profesor,  on_delete=models.DO_NOTHING)
-  id_alumno        = models.ForeignKey(Alumnos,  on_delete=models.DO_NOTHING)
-  descripcion      = models.CharField(max_length=120)
-  pObtenido        = models.IntegerField()
-  documento        = models.IntegerField()
-  indicador        = models.CharField(max_length=1)
-  observacion      = models.CharField(max_length=500)
-
-  class Meta:
-      managed = False
-      db_table = 'vista_resultados'
-
-
 class Resultados(models.Model):
     id_resultadotest = models.IntegerField()
     id_alumno        = models.IntegerField()

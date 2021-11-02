@@ -54,7 +54,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ["id", "loggin", "is_active", "password"]
 
-
 class EntiSerializer(serializers.ModelSerializer):
     id_usuario = UserSerializer()
 
@@ -128,14 +127,6 @@ class RItemSerializer(serializers.ModelSerializer):
         model = ResultadoItem
         fields = ["id_resultadoTest", "id", "id_area", "pObtenido", "indicador", "observacion"]                  
 
-
-class VistaResultadosSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = VistaResultados
-        fields = ["id_resultadoTest_id", "id_profesor_id", "id_alumno_id", "descripcion", "pObtenido", "documento", "indicador", "observacion"]        
-
-
 class VResultadosSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -148,7 +139,6 @@ class VResultadosSerializer(serializers.ModelSerializer):
                   "op_id", "op_pobtenido", "op_pesperado", "op_indicador", "op_observacion",
                   "et_id", "et_pobtenido", "et_pesperado", "et_indicador", "et_observacion",                  
                   "indicador", "observacion"]        
-
 
 #Abm Métodos Serializer
 class RItemUpdateListSerializer(serializers.ListSerializer):

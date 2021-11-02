@@ -244,8 +244,7 @@ class ProfesorDetallesView(APIView):
             if id_usuario == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            
-            #alumno = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
+
             profesor = Profesor.objects.get(id_entidad__id_usuario=id_usuario)
             serializer = ProfesorSerializer(profesor)
             return Response(serializer.data)
@@ -819,7 +818,6 @@ class ResultadoItemListView(APIView):
 
         return Response(payload, status=status.HTTP_200_OK)                
 
-
 class ResultadoItemListDetallesView(APIView):
     def get(self, request, id_rTest):
         '''Busca registros por el '''
@@ -839,25 +837,7 @@ class ResultadoItemListDetallesView(APIView):
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)               
-
-
-class VistaResultadoView(APIView):
-    def get(self, request):
-        '''Busca los resultados por el id_Profesor '''
-        try:
-            resultado = VistaResultados.objects.all()
-            print("Resultado:", resultado) 
-            serializer = VistaResultadosSerializer(resultado, many=True)
-            return Response(serializer.data)
-        except ResultadoItem.DoesNotExist:
-            return JsonResponse(
-                    {'mensaje':'La lista de items no se encuentra en la base de datos'},
-                     status=status.HTTP_404_NOT_FOUND)
-        except Exception:
-            return JsonResponse(
-                {'mensaje': 'Ocurrio en la lectura del servidor'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR)                                         
-
+                                    
 class Vista_ResultadoView(APIView):
     def get(self, request):
         '''Busca los resultados por el id_Profesor '''
