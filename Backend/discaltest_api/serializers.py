@@ -49,8 +49,21 @@ class EntidadSerializer(serializers.ModelSerializer):
         model = Entidad
         fields = ["id", "tipo_entidad", "nombre", "apellido", "telefono", "direccion", "id_usuario", "nro_documento"]
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ["id", "loggin", "is_active", "password"]
+
+
+class EntiSerializer(serializers.ModelSerializer):
+    id_usuario = UserSerializer()
+
+    class Meta:
+        model = Entidad
+        fields = ["id", "tipo_entidad", "nombre", "apellido", "telefono", "direccion", "id_usuario", "nro_documento"]        
+
 class ProfesorSerializer(serializers.ModelSerializer):
-    id_entidad = EntidadSerializer()
+    id_entidad = EntiSerializer()
 
     class Meta:
         model = Profesor

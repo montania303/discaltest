@@ -6,8 +6,6 @@ from rest_framework import generics
 from rest_framework import status
 
 from django.http import JsonResponse
-from django.db import connection
-
 from .serializers import *
 from .models import *
 
@@ -136,6 +134,7 @@ class EntidadListView(APIView):
             serializer = EntidadSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
+                entidad = serializer.data
                 return Response(serializer.data,
                                 status=status.HTTP_201_CREATED)
             return Response(serializer.errors,
@@ -145,15 +144,16 @@ class EntidadListView(APIView):
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class EntidadDetallesView(APIView):
     '''Métodos que sí necesitan de Parámetros'''
-    def get(self, request, pk):
+    def get(self, request, documento):
         '''Busca registros por su Id'''
         try:
-            if pk == '0':
-                return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
+            if documento == '0':
+                return JsonResponse({'mensaje': 'El documento debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            entidad = Entidad.objects.get(pk=pk)
+            entidad = Entidad.objects.get(nro_documento=documento)
             serializer = EntidadSerializer(entidad)
             return Response(serializer.data)
         except Entidad.DoesNotExist:
@@ -238,13 +238,15 @@ class ProfesorListView(APIView):
 
 class ProfesorDetallesView(APIView):
     '''Métodos que sí necesitan de Parámetros'''
-    def get(self, request, pk):
-        '''Busca registros por su Id'''
+    def get(self, request, id_usuario):
+        '''Busca registros por su Id_usuario'''
         try:
-            if pk == '0':
+            if id_usuario == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            profesor = Profesor.object.get(pk=pk)
+            
+            #alumno = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
+            profesor = Profesor.objects.get(id_entidad__id_usuario=id_usuario)
             serializer = ProfesorSerializer(profesor)
             return Response(serializer.data)
         except Profesor.DoesNotExist:
@@ -329,13 +331,13 @@ class AlumnosListView(APIView):
 
 class AlumnosDetallesView(APIView):
     '''Métodos que sí necesitan de Parámetros'''
-    def get(self, request, pk):
+    def get(self, request, id_entidad):
         '''Busca registros por su Id'''
         try:
-            if pk <= '0':
+            if id_entidad <= '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            alumno = Alumnos.objects.get(pk=pk)
+            alumno = Alumnos.objects.get(id_entidad=id_entidad)
             serializer = AlumnosSerializer(alumno)
             return Response(serializer.data)
         except Alumnos.DoesNotExist:
