@@ -724,7 +724,7 @@ class ResultadoItemListView(APIView):
                if res < 60:
                   data[i]['indicador'] = 'S'
                   if item.id == 1:                 
-                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de contar es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquií puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=9xCbQMdQ2S4'
+                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de contar es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=9xCbQMdQ2S4'
                   if item.id == 2:
                     data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de numerar es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=k8etJmnDrYc'  
                   if item.id == 3:
