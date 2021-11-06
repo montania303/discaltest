@@ -42,6 +42,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.whitenoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'discaltest.urls'
@@ -76,8 +77,13 @@ WSGI_APPLICATION = 'discaltest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+import dj_database_url
+from decouple import config
+
 DATABASES = {
-    "default": env.db("DATABASE_URL", default="postgres:///discaltest") ,
+    "default": dj_database_url.config(default=config('DATABASE_URL'))
+    
+    #env.db("DATABASE_URL", default="postgres:///discaltest") ,
 }
 
 
@@ -117,7 +123,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.Path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    s.Path.join(BASE_DIR, 'static'),
+)
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
