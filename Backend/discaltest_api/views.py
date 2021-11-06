@@ -165,13 +165,13 @@ class EntidadDetallesView(APIView):
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def put(self, request, pk):
+    def put(self, request, documento):
         '''Actualiza los datos de acuerdo a su Id'''
         try:
-            if pk == '0':
+            if documento == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            entidad = Entidad.objects.get(pk=pk)
+            entidad = Entidad.objects.get(nro_documento=documento)
             serializer = EntidadSerializer(entidad, data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -186,18 +186,18 @@ class EntidadDetallesView(APIView):
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def delete(self, request, pk):
+    def delete(self, request, documento):
         '''Elimina un registro de acuerdo a su Id'''
         try:
-            if pk == '0':
+            if documento == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            entidad = Entidad.object.get(pk=pk)
+            entidad = Entidad.objects.get(nro_documento=documento)
             entidad.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        except UserProfile.DoesNotExist:
+        except Entidad.DoesNotExist:
             return JsonResponse(
-                    {'mensaje':'El usuario Seleccionado no existe en la base de datos'},
+                    {'mensaje':'La Entidad seleccionada no existe en la base de datos'},
                      status=status.HTTP_404_NOT_FOUND)
         except Exception:
             return JsonResponse(
@@ -348,13 +348,13 @@ class AlumnosDetallesView(APIView):
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def put(self, request, pk):
+    def put(self, request, id_entidad):
         '''Actualiza los datos de acuerdo a su Id'''
         try:
-            if pk == '0':
+            if id_entidad == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            alumnos = Alumnos.objects.get(pk=pk)            
+            alumnos = Alumnos.objects.get(id_entidad=id_entidad)            
             serializer = AlumnosSerializer(alumnos, data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -362,20 +362,20 @@ class AlumnosDetallesView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Alumnos.DoesNotExist:
             return JsonResponse(
-                    {'mensaje':'El usuario Seleccionado no existe en la base de datos'},
+                    {'mensaje':'El Alumno seleccionado no existe en la base de datos'},
                      status=status.HTTP_404_NOT_FOUND)
         except Exception:
             return JsonResponse(
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def delete(self, request, pk):
+    def delete(self, request, id_entidad):
         '''Elimina un registro de acuerdo a su Id'''
         try:
-            if pk == '0':
+            if id_entidad == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            alumnos = Alumnos.objects.get(pk=pk)
+            alumnos = Alumnos.objects.get(id_entidad=id_entidad)
             alumnos.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Alumnos.DoesNotExist:
@@ -436,7 +436,7 @@ class AluprofeDetallesView(APIView):
                 {'mensaje': 'Ocurrio un error en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def put(self, request, pk):
+    def put(self, request, nro_documento):
         '''Actualiza los datos de acuerdo a su Id'''
         try:
             if pk == '0':
@@ -457,13 +457,13 @@ class AluprofeDetallesView(APIView):
                 {'mensaje': 'Ocurrio en la lectura del servidor'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def delete(self, request, pk):
+    def delete(self, request, nro_documento):
         '''Elimina un registro de acuerdo a su Id'''
         try:
-            if pk == '0':
+            if nro_documento == '0':
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
-            aluprofe = AluProfe.objects.get(pk=pk)
+            aluprofe = AluProfe.objects.get(id_alumno__id_entidad__nro_documento=nro_documento)
             aluprofe.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except AluProfe.DoesNotExist:

@@ -5,7 +5,7 @@
 -- Dumped from database version 12.8
 -- Dumped by pg_dump version 12.8
 
--- Started on 2021-11-04 21:43:57
+-- Started on 2021-11-06 10:06:46
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -52,7 +52,7 @@ CREATE SEQUENCE public.auth_group_id_seq
 ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3073 (class 0 OID 0)
+-- TOC entry 3070 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -90,7 +90,7 @@ CREATE SEQUENCE public.auth_group_permissions_id_seq
 ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3074 (class 0 OID 0)
+-- TOC entry 3071 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -130,7 +130,7 @@ CREATE SEQUENCE public.auth_permission_id_seq
 ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3075 (class 0 OID 0)
+-- TOC entry 3072 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -182,7 +182,7 @@ CREATE SEQUENCE public.discaltest_api_alumnos_id_seq
 ALTER TABLE public.discaltest_api_alumnos_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3076 (class 0 OID 0)
+-- TOC entry 3073 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: discaltest_api_alumnos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -221,7 +221,7 @@ CREATE SEQUENCE public.discaltest_api_aluprofe_id_seq
 ALTER TABLE public.discaltest_api_aluprofe_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3077 (class 0 OID 0)
+-- TOC entry 3074 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: discaltest_api_aluprofe_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -260,7 +260,7 @@ CREATE SEQUENCE public.discaltest_api_area_id_seq
 ALTER TABLE public.discaltest_api_area_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3078 (class 0 OID 0)
+-- TOC entry 3075 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: discaltest_api_area_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -304,7 +304,7 @@ CREATE SEQUENCE public.discaltest_api_entidad_id_seq
 ALTER TABLE public.discaltest_api_entidad_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3079 (class 0 OID 0)
+-- TOC entry 3076 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: discaltest_api_entidad_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -343,7 +343,7 @@ CREATE SEQUENCE public.discaltest_api_profesor_id_seq
 ALTER TABLE public.discaltest_api_profesor_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3080 (class 0 OID 0)
+-- TOC entry 3077 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: discaltest_api_profesor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -385,7 +385,7 @@ CREATE SEQUENCE public.discaltest_api_resultadoitem_id_seq
 ALTER TABLE public.discaltest_api_resultadoitem_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3081 (class 0 OID 0)
+-- TOC entry 3078 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: discaltest_api_resultadoitem_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -426,7 +426,7 @@ CREATE SEQUENCE public.discaltest_api_resultadotest_id_seq
 ALTER TABLE public.discaltest_api_resultadotest_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3082 (class 0 OID 0)
+-- TOC entry 3079 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: discaltest_api_resultadotest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -481,7 +481,7 @@ CREATE SEQUENCE public.discaltest_api_userprofile_groups_id_seq
 ALTER TABLE public.discaltest_api_userprofile_groups_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3083 (class 0 OID 0)
+-- TOC entry 3080 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: discaltest_api_userprofile_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -506,7 +506,7 @@ CREATE SEQUENCE public.discaltest_api_userprofile_id_seq
 ALTER TABLE public.discaltest_api_userprofile_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3084 (class 0 OID 0)
+-- TOC entry 3081 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: discaltest_api_userprofile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -544,7 +544,7 @@ CREATE SEQUENCE public.discaltest_api_userprofile_user_permissions_id_seq
 ALTER TABLE public.discaltest_api_userprofile_user_permissions_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3085 (class 0 OID 0)
+-- TOC entry 3082 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: discaltest_api_userprofile_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -589,7 +589,7 @@ CREATE SEQUENCE public.django_admin_log_id_seq
 ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3086 (class 0 OID 0)
+-- TOC entry 3083 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -628,7 +628,7 @@ CREATE SEQUENCE public.django_content_type_id_seq
 ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3087 (class 0 OID 0)
+-- TOC entry 3084 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -667,7 +667,7 @@ CREATE SEQUENCE public.django_migrations_id_seq
 ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3088 (class 0 OID 0)
+-- TOC entry 3085 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -938,7 +938,7 @@ ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 3041 (class 0 OID 16552)
+-- TOC entry 3038 (class 0 OID 16552)
 -- Dependencies: 209
 -- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -948,7 +948,7 @@ COPY public.auth_group (id, name) FROM stdin;
 
 
 --
--- TOC entry 3043 (class 0 OID 16562)
+-- TOC entry 3040 (class 0 OID 16562)
 -- Dependencies: 211
 -- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -958,7 +958,7 @@ COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
 
 
 --
--- TOC entry 3039 (class 0 OID 16544)
+-- TOC entry 3036 (class 0 OID 16544)
 -- Dependencies: 207
 -- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1064,7 +1064,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 
 
 --
--- TOC entry 3060 (class 0 OID 16783)
+-- TOC entry 3057 (class 0 OID 16783)
 -- Dependencies: 228
 -- Data for Name: authtoken_token; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1076,7 +1076,7 @@ a8a88d76b5d3daa76f29b144d1d9da11b57b39b8	2021-11-02 21:56:18.160214-03	4
 
 
 --
--- TOC entry 3051 (class 0 OID 16622)
+-- TOC entry 3048 (class 0 OID 16622)
 -- Dependencies: 219
 -- Data for Name: discaltest_api_alumnos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1092,11 +1092,25 @@ COPY public.discaltest_api_alumnos (id, id_entidad_id) FROM stdin;
 9	26
 10	27
 11	28
+12	29
+13	30
+14	31
+15	32
+17	34
+18	35
+19	36
+20	37
+21	38
+22	39
+23	40
+24	41
+25	42
+26	43
 \.
 
 
 --
--- TOC entry 3057 (class 0 OID 16670)
+-- TOC entry 3054 (class 0 OID 16670)
 -- Dependencies: 225
 -- Data for Name: discaltest_api_aluprofe; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1111,11 +1125,25 @@ COPY public.discaltest_api_aluprofe (id, id_alumno_id, id_profesor_id) FROM stdi
 8	9	2
 9	10	2
 10	11	2
+11	12	2
+12	13	2
+13	14	2
+14	15	2
+16	17	2
+17	18	2
+18	19	2
+19	20	2
+20	21	2
+21	22	2
+22	23	2
+23	24	2
+24	25	2
+25	26	2
 \.
 
 
 --
--- TOC entry 3063 (class 0 OID 25169)
+-- TOC entry 3060 (class 0 OID 25169)
 -- Dependencies: 231
 -- Data for Name: discaltest_api_area; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1131,7 +1159,7 @@ COPY public.discaltest_api_area (id, descripcion, "pEsperado") FROM stdin;
 
 
 --
--- TOC entry 3053 (class 0 OID 16630)
+-- TOC entry 3050 (class 0 OID 16630)
 -- Dependencies: 221
 -- Data for Name: discaltest_api_entidad; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1141,7 +1169,6 @@ COPY public.discaltest_api_entidad (id, tipo_entidad, nombre, apellido, telefono
 4	Pr	Maria	Escobar	(0975) 159 789	Idraulica	4	159874651
 6	Al	Luana Lucia	Montania Espinola	(0973) 123 456	Km 5 1/2 la blanca	\N	45678912
 2	Al	Rocio Celeste	Martinez Franco	(0975) 986 246	Idraulica	\N	1598746
-5	Al	Silvia Arami	Montania Escobar	(0973) 467 789	Alado de su Vecino	\N	8597412
 7	Al	Blanca Maria	Barro López	(0973) 145 116	Km 10 Acaray	\N	4567892
 23	Al	Eder Miguel	Escobar Quintana	(0973) 456789	idraulica	\N	8975461
 24	Al	Mauro Miguel	Céspedes Enciso	0975 487-596	km 11 Acaray	\N	7891256
@@ -1149,11 +1176,26 @@ COPY public.discaltest_api_entidad (id, tipo_entidad, nombre, apellido, telefono
 26	Al	Joela	Escobar	0976854789	km 11	\N	5636778
 27	Al	Ricardo David	Montania López	0973 102 246	Km 11 Acaray	\N	58978946
 28	Al	Diego	Lusberg	0994365511	CDE	\N	4790703
+39	Al	Camila Lujan	Leiva	00000000000	Av. San JOsé	\N	7374750
+40	Al	Fiorela Jazmin	Medina Lugo	00000001	Av. San José	\N	6231549
+42	Al	Luz Macarena	Barrios	000000003	km 6 1/2	\N	6234541
+41	Al	Ivan Rodrigo	Aquino	000000002	km 7	\N	7569446
+32	Al	Gisseli Belen	Arguello	097312346	Villa Fani	\N	7784253
+37	Al	Jorge Gabriel	Ayala	0973058974	Km 7 Ciudad Nueva	\N	7434128
+38	Al	Carlos Daniel	Barrios Molinas	0973156489	km 7 Ciudad Nueva	\N	7927300
+34	Al	Victor Ramon	Bernal	0973012456	Av San Jose	\N	77486700
+36	Al	Diana Belen	Cáceres Aquino	0973109145	Av. San José	\N	7926868
+43	Al	Marta Noemi	Cardozo Rojas	0976825484	km 6 1/2 san isidro	\N	7773537
+35	Al	Guillermo de Jesus	Ortigoza	0973103456	Km 7 Ciudad Nueva	\N	7313321
+30	Al	Luana	Villalba  Cano	0973478159	Villa Fani	\N	7650211
+31	Al	Jonas Javier	Gimenez	0973159456	Villa Fani	\N	7650212
+29	Al	Luana Lucia	Montania Espinola	(0973) 123 456	Km 5 1/2 la blanca	\N	7914188
+5	Al	Silvia Arami	Montania Escobar	(0973) 467 789	KM 7 Ciudad Nueva	\N	8597412
 \.
 
 
 --
--- TOC entry 3055 (class 0 OID 16638)
+-- TOC entry 3052 (class 0 OID 16638)
 -- Dependencies: 223
 -- Data for Name: discaltest_api_profesor; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1164,27 +1206,36 @@ COPY public.discaltest_api_profesor (id, id_entidad_id, curso) FROM stdin;
 
 
 --
--- TOC entry 3067 (class 0 OID 25445)
+-- TOC entry 3064 (class 0 OID 25445)
 -- Dependencies: 235
 -- Data for Name: discaltest_api_resultadoitem; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.discaltest_api_resultadoitem (id, "pObtenido", indicador, observacion, id_area_id, "id_resultadoTest_id") FROM stdin;
+568	6	N	El/la niño/a tiene un buen rendimiento	1	36
+569	4	N	El/la niño/a tiene un buen rendimiento	2	36
+570	19	N	El/la niño/a tiene un buen rendimiento	3	36
+571	9	N	El/la niño/a tiene un buen rendimiento	4	36
+572	10	N	El/la niño/a tiene un buen rendimiento	5	36
+573	4	N	El/la niño/a tiene un buen rendimiento	6	36
 \.
 
 
 --
--- TOC entry 3065 (class 0 OID 25279)
+-- TOC entry 3062 (class 0 OID 25279)
 -- Dependencies: 233
 -- Data for Name: discaltest_api_resultadotest; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.discaltest_api_resultadotest (id, indicador, observacion, id_alumno_id, id_profesor_id) FROM stdin;
+34	\N	\N	11	2
+35	\N	\N	15	2
+36	N	\N	20	2
 \.
 
 
 --
--- TOC entry 3045 (class 0 OID 16596)
+-- TOC entry 3042 (class 0 OID 16596)
 -- Dependencies: 213
 -- Data for Name: discaltest_api_userprofile; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1197,12 +1248,12 @@ Ara03082019	\N	f	5	AramiMontania	t
 pbkdf2_sha256$260000$Ho9Xstfn1Uhfu6IMSmQCZT$rfrhNTJrT7nolu6ukmFzdTMrV/IBQgpIOo7svH/8XVQ=	\N	f	10	Ricardo	f
 pbkdf2_sha256$260000$808eGHM4AePWsXdhFRJEkl$M7VDdTSz50X24VGiQ6msw/WDNiXkjMdCZnwtuYmgZrU=	\N	f	11	Aldana	f
 pbkdf2_sha256$260000$DB1mIceJezQCxhfyabEgLh$vYAWyY8oN7WC+rF37gnAb5LB9p+dBxJ79cGPGR4uz28=	\N	f	1	Moises 2021	t
-pbkdf2_sha256$260000$yfUXruuH77Qw4rOtDOyb4K$73gLhKNDqNyvxVR//QLuQ3qyopDQ9kaOS/XcX6PUUHc=	\N	f	4	MariaEscobar	t
+pbkdf2_sha256$260000$zec7Oba1LqWWmFYiDkvSuH$nRk0OpGI/3biHiL1avWlItepEgF7hWX8PYA8VZWhPDY=	\N	f	4	Profe Josefina	t
 \.
 
 
 --
--- TOC entry 3047 (class 0 OID 16606)
+-- TOC entry 3044 (class 0 OID 16606)
 -- Dependencies: 215
 -- Data for Name: discaltest_api_userprofile_groups; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1212,7 +1263,7 @@ COPY public.discaltest_api_userprofile_groups (id, userprofile_id, group_id) FRO
 
 
 --
--- TOC entry 3049 (class 0 OID 16614)
+-- TOC entry 3046 (class 0 OID 16614)
 -- Dependencies: 217
 -- Data for Name: discaltest_api_userprofile_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1222,7 +1273,7 @@ COPY public.discaltest_api_userprofile_user_permissions (id, userprofile_id, per
 
 
 --
--- TOC entry 3059 (class 0 OID 16761)
+-- TOC entry 3056 (class 0 OID 16761)
 -- Dependencies: 227
 -- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1232,7 +1283,7 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 
 
 --
--- TOC entry 3037 (class 0 OID 16534)
+-- TOC entry 3034 (class 0 OID 16534)
 -- Dependencies: 205
 -- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1266,7 +1317,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 
 
 --
--- TOC entry 3035 (class 0 OID 16523)
+-- TOC entry 3032 (class 0 OID 16523)
 -- Dependencies: 203
 -- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1347,11 +1398,12 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 73	discaltest_api	0052_delete_resultados	2021-10-31 20:36:19.672447-03
 74	discaltest_api	0053_resultados	2021-10-31 20:37:06.781898-03
 75	discaltest_api	0054_delete_vistaresultados	2021-11-01 23:07:46.731305-03
+76	discaltest_api	0055_alter_entidad_telefono	2021-11-06 10:01:58.937396-03
 \.
 
 
 --
--- TOC entry 3061 (class 0 OID 16824)
+-- TOC entry 3058 (class 0 OID 16824)
 -- Dependencies: 229
 -- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1361,7 +1413,7 @@ COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 
 
 --
--- TOC entry 3089 (class 0 OID 0)
+-- TOC entry 3086 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1370,7 +1422,7 @@ SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
 
 
 --
--- TOC entry 3090 (class 0 OID 0)
+-- TOC entry 3087 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1379,7 +1431,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 
 
 --
--- TOC entry 3091 (class 0 OID 0)
+-- TOC entry 3088 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1388,25 +1440,25 @@ SELECT pg_catalog.setval('public.auth_permission_id_seq', 96, true);
 
 
 --
--- TOC entry 3092 (class 0 OID 0)
+-- TOC entry 3089 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: discaltest_api_alumnos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.discaltest_api_alumnos_id_seq', 11, true);
+SELECT pg_catalog.setval('public.discaltest_api_alumnos_id_seq', 26, true);
 
 
 --
--- TOC entry 3093 (class 0 OID 0)
+-- TOC entry 3090 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: discaltest_api_aluprofe_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.discaltest_api_aluprofe_id_seq', 10, true);
+SELECT pg_catalog.setval('public.discaltest_api_aluprofe_id_seq', 25, true);
 
 
 --
--- TOC entry 3094 (class 0 OID 0)
+-- TOC entry 3091 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: discaltest_api_area_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1415,16 +1467,16 @@ SELECT pg_catalog.setval('public.discaltest_api_area_id_seq', 7, true);
 
 
 --
--- TOC entry 3095 (class 0 OID 0)
+-- TOC entry 3092 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: discaltest_api_entidad_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.discaltest_api_entidad_id_seq', 28, true);
+SELECT pg_catalog.setval('public.discaltest_api_entidad_id_seq', 43, true);
 
 
 --
--- TOC entry 3096 (class 0 OID 0)
+-- TOC entry 3093 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: discaltest_api_profesor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1433,25 +1485,25 @@ SELECT pg_catalog.setval('public.discaltest_api_profesor_id_seq', 2, true);
 
 
 --
--- TOC entry 3097 (class 0 OID 0)
+-- TOC entry 3094 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: discaltest_api_resultadoitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.discaltest_api_resultadoitem_id_seq', 567, true);
+SELECT pg_catalog.setval('public.discaltest_api_resultadoitem_id_seq', 573, true);
 
 
 --
--- TOC entry 3098 (class 0 OID 0)
+-- TOC entry 3095 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: discaltest_api_resultadotest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.discaltest_api_resultadotest_id_seq', 33, true);
+SELECT pg_catalog.setval('public.discaltest_api_resultadotest_id_seq', 36, true);
 
 
 --
--- TOC entry 3099 (class 0 OID 0)
+-- TOC entry 3096 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: discaltest_api_userprofile_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1460,7 +1512,7 @@ SELECT pg_catalog.setval('public.discaltest_api_userprofile_groups_id_seq', 1, f
 
 
 --
--- TOC entry 3100 (class 0 OID 0)
+-- TOC entry 3097 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: discaltest_api_userprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1469,7 +1521,7 @@ SELECT pg_catalog.setval('public.discaltest_api_userprofile_id_seq', 11, true);
 
 
 --
--- TOC entry 3101 (class 0 OID 0)
+-- TOC entry 3098 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: discaltest_api_userprofile_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1478,7 +1530,7 @@ SELECT pg_catalog.setval('public.discaltest_api_userprofile_user_permissions_id_
 
 
 --
--- TOC entry 3102 (class 0 OID 0)
+-- TOC entry 3099 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1487,7 +1539,7 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 1, false);
 
 
 --
--- TOC entry 3103 (class 0 OID 0)
+-- TOC entry 3100 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1496,12 +1548,12 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 24, true);
 
 
 --
--- TOC entry 3104 (class 0 OID 0)
+-- TOC entry 3101 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 75, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 76, true);
 
 
 --
@@ -1559,7 +1611,7 @@ ALTER TABLE ONLY public.auth_permission
 
 
 --
--- TOC entry 2871 (class 2606 OID 16787)
+-- TOC entry 2868 (class 2606 OID 16787)
 -- Name: authtoken_token authtoken_token_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1568,7 +1620,7 @@ ALTER TABLE ONLY public.authtoken_token
 
 
 --
--- TOC entry 2873 (class 2606 OID 16789)
+-- TOC entry 2870 (class 2606 OID 16789)
 -- Name: authtoken_token authtoken_token_user_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1586,7 +1638,7 @@ ALTER TABLE ONLY public.discaltest_api_alumnos
 
 
 --
--- TOC entry 2864 (class 2606 OID 16675)
+-- TOC entry 2861 (class 2606 OID 16675)
 -- Name: discaltest_api_aluprofe discaltest_api_aluprofe_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1595,7 +1647,7 @@ ALTER TABLE ONLY public.discaltest_api_aluprofe
 
 
 --
--- TOC entry 2879 (class 2606 OID 25174)
+-- TOC entry 2876 (class 2606 OID 25174)
 -- Name: discaltest_api_area discaltest_api_area_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1622,16 +1674,7 @@ ALTER TABLE ONLY public.discaltest_api_entidad
 
 
 --
--- TOC entry 2857 (class 2606 OID 34116)
--- Name: discaltest_api_entidad discaltest_api_entidad_telefono_1c5e4ee0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.discaltest_api_entidad
-    ADD CONSTRAINT discaltest_api_entidad_telefono_1c5e4ee0_uniq UNIQUE (telefono);
-
-
---
--- TOC entry 2860 (class 2606 OID 16643)
+-- TOC entry 2857 (class 2606 OID 16643)
 -- Name: discaltest_api_profesor discaltest_api_profesor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1640,7 +1683,7 @@ ALTER TABLE ONLY public.discaltest_api_profesor
 
 
 --
--- TOC entry 2887 (class 2606 OID 25450)
+-- TOC entry 2884 (class 2606 OID 25450)
 -- Name: discaltest_api_resultadoitem discaltest_api_resultadoitem_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1649,7 +1692,7 @@ ALTER TABLE ONLY public.discaltest_api_resultadoitem
 
 
 --
--- TOC entry 2883 (class 2606 OID 25284)
+-- TOC entry 2880 (class 2606 OID 25284)
 -- Name: discaltest_api_resultadotest discaltest_api_resultadotest_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1703,7 +1746,7 @@ ALTER TABLE ONLY public.discaltest_api_userprofile_user_permissions
 
 
 --
--- TOC entry 2867 (class 2606 OID 16770)
+-- TOC entry 2864 (class 2606 OID 16770)
 -- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1739,7 +1782,7 @@ ALTER TABLE ONLY public.django_migrations
 
 
 --
--- TOC entry 2876 (class 2606 OID 16831)
+-- TOC entry 2873 (class 2606 OID 16831)
 -- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1780,7 +1823,7 @@ CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission 
 
 
 --
--- TOC entry 2869 (class 1259 OID 16795)
+-- TOC entry 2866 (class 1259 OID 16795)
 -- Name: authtoken_token_key_10f0b77e_like; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1796,7 +1839,7 @@ CREATE INDEX discaltest_api_alumnos_id_entidad_id_df577318 ON public.discaltest_
 
 
 --
--- TOC entry 2861 (class 1259 OID 16756)
+-- TOC entry 2858 (class 1259 OID 16756)
 -- Name: discaltest_api_aluprofe_id_alumno_id_fc852f59; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1804,7 +1847,7 @@ CREATE INDEX discaltest_api_aluprofe_id_alumno_id_fc852f59 ON public.discaltest_
 
 
 --
--- TOC entry 2862 (class 1259 OID 16757)
+-- TOC entry 2859 (class 1259 OID 16757)
 -- Name: discaltest_api_aluprofe_id_profedor_id_78a81bff; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1828,15 +1871,7 @@ CREATE INDEX discaltest_api_entidad_nro_documento_7df8b143_like ON public.discal
 
 
 --
--- TOC entry 2855 (class 1259 OID 34117)
--- Name: discaltest_api_entidad_telefono_1c5e4ee0_like; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX discaltest_api_entidad_telefono_1c5e4ee0_like ON public.discaltest_api_entidad USING btree (telefono varchar_pattern_ops);
-
-
---
--- TOC entry 2858 (class 1259 OID 16721)
+-- TOC entry 2855 (class 1259 OID 16721)
 -- Name: discaltest_api_profesor_id_entidad_id_dcee73db; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1844,7 +1879,7 @@ CREATE INDEX discaltest_api_profesor_id_entidad_id_dcee73db ON public.discaltest
 
 
 --
--- TOC entry 2884 (class 1259 OID 25461)
+-- TOC entry 2881 (class 1259 OID 25461)
 -- Name: discaltest_api_resultadoitem_id_area_id_99a68086; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1852,7 +1887,7 @@ CREATE INDEX discaltest_api_resultadoitem_id_area_id_99a68086 ON public.discalte
 
 
 --
--- TOC entry 2885 (class 1259 OID 25462)
+-- TOC entry 2882 (class 1259 OID 25462)
 -- Name: discaltest_api_resultadoitem_id_resultadoTest_id_10653a5d; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1860,7 +1895,7 @@ CREATE INDEX "discaltest_api_resultadoitem_id_resultadoTest_id_10653a5d" ON publ
 
 
 --
--- TOC entry 2880 (class 1259 OID 25303)
+-- TOC entry 2877 (class 1259 OID 25303)
 -- Name: discaltest_api_resultadotest_id_alumno_id_cdd24346; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1868,7 +1903,7 @@ CREATE INDEX discaltest_api_resultadotest_id_alumno_id_cdd24346 ON public.discal
 
 
 --
--- TOC entry 2881 (class 1259 OID 25304)
+-- TOC entry 2878 (class 1259 OID 25304)
 -- Name: discaltest_api_resultadotest_id_profesor_id_be43f297; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1908,7 +1943,7 @@ CREATE INDEX discaltest_api_userprofile_userprofile_id_c0555c74 ON public.discal
 
 
 --
--- TOC entry 2865 (class 1259 OID 16781)
+-- TOC entry 2862 (class 1259 OID 16781)
 -- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1916,7 +1951,7 @@ CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_lo
 
 
 --
--- TOC entry 2868 (class 1259 OID 16782)
+-- TOC entry 2865 (class 1259 OID 16782)
 -- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1924,7 +1959,7 @@ CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING 
 
 
 --
--- TOC entry 2874 (class 1259 OID 16833)
+-- TOC entry 2871 (class 1259 OID 16833)
 -- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1932,7 +1967,7 @@ CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING 
 
 
 --
--- TOC entry 2877 (class 1259 OID 16832)
+-- TOC entry 2874 (class 1259 OID 16832)
 -- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1940,7 +1975,7 @@ CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session U
 
 
 --
--- TOC entry 2890 (class 2606 OID 16584)
+-- TOC entry 2887 (class 2606 OID 16584)
 -- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1949,7 +1984,7 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- TOC entry 2889 (class 2606 OID 16579)
+-- TOC entry 2886 (class 2606 OID 16579)
 -- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1958,7 +1993,7 @@ ALTER TABLE ONLY public.auth_group_permissions
 
 
 --
--- TOC entry 2888 (class 2606 OID 16570)
+-- TOC entry 2885 (class 2606 OID 16570)
 -- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1967,7 +2002,7 @@ ALTER TABLE ONLY public.auth_permission
 
 
 --
--- TOC entry 2902 (class 2606 OID 16790)
+-- TOC entry 2899 (class 2606 OID 16790)
 -- Name: authtoken_token authtoken_token_user_id_35299eff_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1976,7 +2011,7 @@ ALTER TABLE ONLY public.authtoken_token
 
 
 --
--- TOC entry 2895 (class 2606 OID 16676)
+-- TOC entry 2892 (class 2606 OID 16676)
 -- Name: discaltest_api_alumnos discaltest_api_alumn_id_entidad_id_df577318_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1985,7 +2020,7 @@ ALTER TABLE ONLY public.discaltest_api_alumnos
 
 
 --
--- TOC entry 2898 (class 2606 OID 16746)
+-- TOC entry 2895 (class 2606 OID 16746)
 -- Name: discaltest_api_aluprofe discaltest_api_alupr_id_alumno_id_fc852f59_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1994,7 +2029,7 @@ ALTER TABLE ONLY public.discaltest_api_aluprofe
 
 
 --
--- TOC entry 2899 (class 2606 OID 16835)
+-- TOC entry 2896 (class 2606 OID 16835)
 -- Name: discaltest_api_aluprofe discaltest_api_alupr_id_profesor_id_df844cf1_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2003,7 +2038,7 @@ ALTER TABLE ONLY public.discaltest_api_aluprofe
 
 
 --
--- TOC entry 2896 (class 2606 OID 33843)
+-- TOC entry 2893 (class 2606 OID 33843)
 -- Name: discaltest_api_entidad discaltest_api_entid_id_usuario_id_ff7aff57_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2012,7 +2047,7 @@ ALTER TABLE ONLY public.discaltest_api_entidad
 
 
 --
--- TOC entry 2897 (class 2606 OID 16716)
+-- TOC entry 2894 (class 2606 OID 16716)
 -- Name: discaltest_api_profesor discaltest_api_profe_id_entidad_id_dcee73db_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2021,7 +2056,7 @@ ALTER TABLE ONLY public.discaltest_api_profesor
 
 
 --
--- TOC entry 2903 (class 2606 OID 25293)
+-- TOC entry 2900 (class 2606 OID 25293)
 -- Name: discaltest_api_resultadotest discaltest_api_resul_id_alumno_id_cdd24346_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2030,7 +2065,7 @@ ALTER TABLE ONLY public.discaltest_api_resultadotest
 
 
 --
--- TOC entry 2905 (class 2606 OID 25451)
+-- TOC entry 2902 (class 2606 OID 25451)
 -- Name: discaltest_api_resultadoitem discaltest_api_resul_id_area_id_99a68086_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2039,7 +2074,7 @@ ALTER TABLE ONLY public.discaltest_api_resultadoitem
 
 
 --
--- TOC entry 2904 (class 2606 OID 25298)
+-- TOC entry 2901 (class 2606 OID 25298)
 -- Name: discaltest_api_resultadotest discaltest_api_resul_id_profesor_id_be43f297_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2048,7 +2083,7 @@ ALTER TABLE ONLY public.discaltest_api_resultadotest
 
 
 --
--- TOC entry 2906 (class 2606 OID 25456)
+-- TOC entry 2903 (class 2606 OID 25456)
 -- Name: discaltest_api_resultadoitem discaltest_api_resul_id_resultadoTest_id_10653a5d_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2057,7 +2092,7 @@ ALTER TABLE ONLY public.discaltest_api_resultadoitem
 
 
 --
--- TOC entry 2892 (class 2606 OID 16689)
+-- TOC entry 2889 (class 2606 OID 16689)
 -- Name: discaltest_api_userprofile_groups discaltest_api_userp_group_id_12655e6e_fk_auth_grou; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2066,7 +2101,7 @@ ALTER TABLE ONLY public.discaltest_api_userprofile_groups
 
 
 --
--- TOC entry 2894 (class 2606 OID 16703)
+-- TOC entry 2891 (class 2606 OID 16703)
 -- Name: discaltest_api_userprofile_user_permissions discaltest_api_userp_permission_id_a7f5992e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2075,7 +2110,7 @@ ALTER TABLE ONLY public.discaltest_api_userprofile_user_permissions
 
 
 --
--- TOC entry 2891 (class 2606 OID 16684)
+-- TOC entry 2888 (class 2606 OID 16684)
 -- Name: discaltest_api_userprofile_groups discaltest_api_userp_userprofile_id_800cc94b_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2084,7 +2119,7 @@ ALTER TABLE ONLY public.discaltest_api_userprofile_groups
 
 
 --
--- TOC entry 2893 (class 2606 OID 16698)
+-- TOC entry 2890 (class 2606 OID 16698)
 -- Name: discaltest_api_userprofile_user_permissions discaltest_api_userp_userprofile_id_c0555c74_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2093,7 +2128,7 @@ ALTER TABLE ONLY public.discaltest_api_userprofile_user_permissions
 
 
 --
--- TOC entry 2900 (class 2606 OID 16771)
+-- TOC entry 2897 (class 2606 OID 16771)
 -- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2102,7 +2137,7 @@ ALTER TABLE ONLY public.django_admin_log
 
 
 --
--- TOC entry 2901 (class 2606 OID 16776)
+-- TOC entry 2898 (class 2606 OID 16776)
 -- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_discaltes; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2110,7 +2145,7 @@ ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_discaltes FOREIGN KEY (user_id) REFERENCES public.discaltest_api_userprofile(id) DEFERRABLE INITIALLY DEFERRED;
 
 
--- Completed on 2021-11-04 21:43:57
+-- Completed on 2021-11-06 10:06:47
 
 --
 -- PostgreSQL database dump complete

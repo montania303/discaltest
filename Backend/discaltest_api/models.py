@@ -52,7 +52,7 @@ class Entidad(models.Model):
     nro_documento = models.CharField(max_length=60, null=False, unique=True)
     nombre = models.CharField(max_length=60, null=False)
     apellido = models.CharField(max_length=60, null=False)    
-    telefono = models.CharField(max_length=20, unique=True)
+    telefono = models.CharField(max_length=20)
     direccion = models.CharField(max_length=20)
    
    
