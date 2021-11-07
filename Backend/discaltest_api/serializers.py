@@ -68,6 +68,12 @@ class ProfesorSerializer(serializers.ModelSerializer):
         model = Profesor
         fields = ["id", "id_entidad", "curso"]
 
+class ProfeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profesor
+        fields = ["id", "id_entidad", "curso"]
+
+
 class AluSerializer(serializers.ModelSerializer):
 
     class Meta:

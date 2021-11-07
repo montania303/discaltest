@@ -224,7 +224,7 @@ class ProfesorListView(APIView):
             return JsonResponse({'mensaje': 'Este Profesor ya se encuentra registrado.'},
                                     status=status.HTTP_400_BAD_REQUEST)
           else:            
-            serializer = ProfesorSerializer(data=request.data)
+            serializer = ProfeSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data,
