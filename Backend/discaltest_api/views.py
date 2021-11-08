@@ -264,7 +264,7 @@ class ProfesorDetallesView(APIView):
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
             profesor = Profesor.object.get(pk=pk)
-            serializer = ProfesorSerializer(profesor, data=request.data)
+            serializer = ProfeSerializer(profesor, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
@@ -621,11 +621,9 @@ class ResultadoTestDetallesView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)                
 
     def diagnostico_gral(self, data, id):
-       id_rTest = data['id']
-       ritem = ResultadoItem.objects.filter(id_resultadoTest__in=[id_rTest,id_rTest,id_rTest,id_rTest,id_rTest,id_rTest])
+       ritem = ResultadoItem.objects.filter(id_resultadoTest__in=[id,id,id,id,id,id])
        i=0
        CET=False
-
        for item in ritem:
            if item.indicador == 'S': 
               i += 1
@@ -647,6 +645,9 @@ class ResultadoTestDetallesView(APIView):
            else:
               data['indicador'] = 'N'
               data['observacion'] = data['observacion']
+
+
+       print("data", data)       
        return data
     
     def put(self, request, id_alumno):
@@ -657,8 +658,7 @@ class ResultadoTestDetallesView(APIView):
                                     status=status.HTTP_400_BAD_REQUEST)
 
             resultado_test = ResultadoTest.objects.get(id_alumno=id_alumno)
-            data = self.diagnostico_gral(request.data, request.data['id'])
-            #print("\n Data: ", data)
+            data = self.diagnostico_gral(request.data, resultado_test.id)
             serializer = RTestSerializer(resultado_test, data)
             if serializer.is_valid():
                 serializer.save()
