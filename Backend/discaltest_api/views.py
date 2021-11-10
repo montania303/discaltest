@@ -224,7 +224,7 @@ class ProfesorListView(APIView):
             return JsonResponse({'mensaje': 'Este Profesor ya se encuentra registrado.'},
                                     status=status.HTTP_400_BAD_REQUEST)
           else:            
-            serializer = ProfeSerializer(data=request.data)
+            serializer = ProfesorSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data,
@@ -264,7 +264,7 @@ class ProfesorDetallesView(APIView):
                 return JsonResponse({'mensaje': 'El Id debe ser mayor a zero'},
                                     status=status.HTTP_400_BAD_REQUEST)
             profesor = Profesor.object.get(pk=pk)
-            serializer = ProfeSerializer(profesor, data=request.data)
+            serializer = ProfesorSerializer(profesor, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
@@ -634,14 +634,14 @@ class ResultadoTestDetallesView(APIView):
        if CET:
            if res > 60:
               data['indicador'] = 'S'
-              data['observacion'] = 'El/La niño/a necesita de manera urgente ayuda profesional por que obtuvo bajo rendimiento en mas del 60% de las áreas estudiadas, Atención: tener en cuenta que la área de Estimación del tamaño esta incluida en las áreas de bajo rendimiento'                        
+              data['observacion'] = 'El/La niño/a necesita de manera urgente acudir a un profesional, por que obtuvo bajo rendimiento en mas del 60% de las áreas estudiadas, Atención: tener en cuenta que la área de Estimación del tamaño esta incluida en las áreas de bajo rendimiento'                        
            else:    
               data['indicador'] = 'S'
-              data['observacion'] = 'El/La niño/a tiene riesgo de discalculia por que obtuvo un bajo rendimiento en el área de Estimación del Tamaño y esta área es de suma importancia en el aprendizaje del niño/a'             
+              data['observacion'] = 'El/La niño/a tiene riesgo de padecer discalculia, por que obtuvo un bajo rendimiento en el área de Estimación del Tamaño y esta área es de suma importancia en el aprendizaje del niño/a'             
        else:
            if res > 60:
               data['indicador'] = 'S'
-              data['observacion'] = 'El/La niño/a tiene riesgo de discalculia por que obtuvo un bajo rendimiento en mas del 60% de las áreas Estudiadas'                    
+              data['observacion'] = 'El/La niño/a tiene riesgo de padecer discalculia por que obtuvo un bajo rendimiento en mas del 60% de las áreas estudiadas'                    
            else:
               data['indicador'] = 'N'
               data['observacion'] = data['observacion']
@@ -724,20 +724,20 @@ class ResultadoItemListView(APIView):
                if res < 60:
                   data[i]['indicador'] = 'S'
                   if item.id == 1:                 
-                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de contar es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=9xCbQMdQ2S4'
+                    data[i]['observacion'] = 'El/la niño/a obtuvo un rendimiento menor al mínimo esperado(60%), por ende es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=9xCbQMdQ2S4'
                   if item.id == 2:
-                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de numerar es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=k8etJmnDrYc'  
+                    data[i]['observacion'] = 'El/la niño/a obtuvo un rendimiento menor al mínimo esperado(60%), en el área de numerar, por ende es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=k8etJmnDrYc'  
                   if item.id == 3:
-                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de Comprensión del Sistema Numérico es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=aqPQ0QkBvOs'  
+                    data[i]['observacion'] = 'El/la niño/a obtuvo un rendimiento menor al mínimo esperado(60%), en el área de Comprensión del Sistema Numérico es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=aqPQ0QkBvOs'  
                   if item.id == 4:
-                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de Operaciones Lógicas es conveniente que acuda a un profesional para recibir ayuda. y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=72HJrR086A8'  
+                    data[i]['observacion'] = 'El/la niño/a obtuvo un rendimiento menor al mínimo esperado(60%), en el área de Operaciones Lógicas es conveniente que acuda a un profesional para recibir ayuda. y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=72HJrR086A8'  
                   if item.id == 5:
-                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de Operaciones es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=A-6lytfixEw'  
+                    data[i]['observacion'] = 'El/la niño/a obtuvo un rendimiento menor al mínimo esperado(60%), en el área de Operaciones es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=A-6lytfixEw'  
                   if item.id == 6:
-                    data[i]['observacion'] = 'El/la niño/a esta con bajo rendimiento en el área de Estimación del Tamaño es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=qD2HQQMvXj8 - https://www.youtube.com/watch?v=6NnqL7FKd2w'                                                              
+                    data[i]['observacion'] = 'El/la niño/a obtuvo un rendimiento menor al mínimo esperado(60%). en el área de Estimación del Tamaño(ésta área es de suma importancia para el aprendizaje de los niños) es conveniente que acuda a un profesional para recibir ayuda, y/o le haga prácticar ejercicios relacionados a esta área aquí puede acceder a material que le será de mucha ayuda https://www.youtube.com/watch?v=qD2HQQMvXj8 - https://www.youtube.com/watch?v=6NnqL7FKd2w'                                                              
                else:
                   data[i]['indicador'] = 'N'
-                  data[i]['observacion'] = 'El/la niño/a tiene un buen rendimiento'                                                              
+                  data[i]['observacion'] = 'El/la niño/a obtuvo un rendimiento superior al mínimo esperado'                                                              
            i += 1
        return data           
 
